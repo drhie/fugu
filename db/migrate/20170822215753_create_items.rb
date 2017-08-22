@@ -3,9 +3,12 @@ class CreateItems < ActiveRecord::Migration[5.0]
     create_table :items do |t|
       t.string :name
       t.integer :amount
-      t.integer :user_id
+      t.string :item_type
+      t.integer :spreadsheet_id
+      t.integer :user_id, optional: true
 
       t.timestamps
     end
+
   end
 end
