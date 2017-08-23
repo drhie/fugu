@@ -4,6 +4,6 @@ Rails.application.routes.draw do
   root to: "home#index"
 
   resources :spreadsheets
-  resources :items, except: :index
+  resources :items, except: [:index, :show]
 
 end
