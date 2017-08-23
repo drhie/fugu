@@ -24,9 +24,10 @@ ActiveRecord::Schema.define(version: 20170822221259) do
 
   create_table "spreadsheets", force: :cascade do |t|
     t.string   "name"
-    t.integer  "user"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.integer  "items_count", default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "users", force: :cascade do |t|
