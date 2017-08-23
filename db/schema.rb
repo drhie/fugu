@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20170822221259) do
 
   create_table "spreadsheets", force: :cascade do |t|
     t.string   "name"
+    t.string   "currency"
     t.integer  "user_id"
     t.integer  "items_count", default: 0
     t.datetime "created_at",              null: false
