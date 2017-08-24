@@ -1,2 +1,2 @@
-import '../spreadsheet'
+import 'spreadsheet'
 console.log("Spreadsheet!")
