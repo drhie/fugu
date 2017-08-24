@@ -15,7 +15,8 @@ RSpec.describe Item, type: :model do
       item = Item.new(
         name: "bananas",
         amount: 100,
-        item_type: "cost",
+        item_type: "grocery",
+        is_expense: true,
         spreadsheet_id: s1.id
       )
       item.save!

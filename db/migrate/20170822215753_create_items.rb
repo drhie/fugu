@@ -4,6 +4,7 @@ class CreateItems < ActiveRecord::Migration[5.0]
       t.string :name
       t.integer :amount
       t.string :item_type
+      t.boolean :is_expense
       t.integer :spreadsheet_id
       t.integer :user_id, optional: true
 
