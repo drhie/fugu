@@ -13,7 +13,11 @@ export default class Spreadsheet extends Component {
       <div className="border">
         <Control />
         <Grid />
-        <Balance />
+        <Balance
+          totalIncome={0}
+          totalExpense={0}
+          balance={0}
+          />
       </div>
     )
   }

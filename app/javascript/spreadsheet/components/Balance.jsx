@@ -5,9 +5,9 @@ export default class Balance extends React.Component {
     return (
       <div className="border balance">
         <h1>OVERALL</h1>
-        <p>Income: </p>
-        <p>Expense: </p>
-        <p>Balance: </p>
+        <p>Income: {this.props.totalIncome}</p>
+        <p>Expense: {this.props.totalExpense}</p>
+        <p>Balance: {this.props.balance}</p>
       </div>
     )
   }

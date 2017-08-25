@@ -27,7 +27,7 @@ export default class InputScreen extends React.Component {
           <input type="text" name="amount"></input>
           <label>Category:</label>
           <input type="text" name="category"></input>
-          <input type="submit"></input>
+          <input type="submit" id="submit-button"></input>
         </form>
       </div>
     )
