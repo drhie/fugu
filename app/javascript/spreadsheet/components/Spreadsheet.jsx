@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
+import Balance from './Balance';
+import Grid from './Grid';
 
-class Spreadsheet extends Component {
+export default class Spreadsheet extends Component {
   render() {
     return (
-      <div className="App">
-        <h2>Powerful Changes!</h2>
+      <div className="border">
+        <Grid />
+        <Balance />
       </div>
     )
   }
 }
-
-export default Spreadsheet;
