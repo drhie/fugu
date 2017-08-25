@@ -7,9 +7,7 @@ export default class Grid extends React.Component {
       <div className="border grid">
         { [0, 1, 2, 3].map(function(i) {
           return <div className="border column">
-            { [0, 1, 2, 3].map(function(i) {
-              return <Column />
-            }.bind(this)) }
+              <Column />
           </div>
         }.bind(this)) }
       </div>
