@@ -15,17 +15,12 @@ class ItemsController < ApplicationController
 
   def update
     @item = Item.find(params[:id])
-    if @item.update_attributes(item_params)
-      redirect_to root_url
-    else
-      render :edit
-    end
+    @item.update_attributes(item_params)
   end
 
   def destroy
     @item = Item.find(params[:id])
     @item.destroy
-    redirect_to root_url
   end
 
   private

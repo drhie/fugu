@@ -4,8 +4,8 @@ export default class Item extends React.Component {
   render() {
     return (
       <div className="border box">
-        <p>Grocery</p>
-        <p>350 yen</p>
+        <p>{this.props.itemName}</p>
+        <p>{this.props.itemAmount}</p>
       </div>
     )
   }
