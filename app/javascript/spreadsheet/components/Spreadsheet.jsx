@@ -9,6 +9,7 @@ export default class Spreadsheet extends Component {
     super();
     this.state = {
       inputScreen: false,
+      inputType: null,
       categories: ["Groceries", "Entertainment", "Utilities", "Misc"],
       expenses: {
         "Groceries": [{name: "cheese", amount: 100}, {name: "bread", amount: 200}],
@@ -19,12 +20,21 @@ export default class Spreadsheet extends Component {
     }
   }
 
-  showInputScreen() {
+  closeInputScreen(i) {
     if (this.state.inputScreen) {
       this.setState({ inputScreen: false });
     } else {
       this.setState({ inputScreen: true });
     }
+  }
+
+  setInputScreen(i) {
+    this.setState({inputScreen: true, inputType: i})
+  }
+
+  calculateTotalIncome() {
+    let total = 0;
+    return total;
   }
 
   calculateTotalExpense() {
@@ -38,35 +48,41 @@ export default class Spreadsheet extends Component {
     return total;
   }
 
+  calculateTotalBalance() {
+    return this.calculateTotalIncome() - this.calculateTotalExpense();
+  }
+
   render() {
     return (
       <div className="border">
-        <div className="panel">
-          <div className="panel-bar">
-            <Control
-              toggleInput={()=>this.showInputScreen()}
-              title="Expense" />
-            <Control
-              toggleInput={()=>this.showInputScreen()}
-              title="Income" />
-            <Control
-              toggleInput={()=>this.showInputScreen()}
-              title="Category"
-              />
-          </div>
-        </div>
-        <InputScreen
-          toggleInput={()=>this.showInputScreen()}
-          revealInput={this.state.inputScreen}
-          title={this.state.inputType} />
         <Grid
           items={this.state.expenses}
           categories={this.state.categories} />
-        <Balance
-          totalIncome={0}
-          totalExpense={this.calculateTotalExpense()}
-          balance={0}
-          />
+        <div className="border balance">
+          <Balance
+            totalIncome={this.calculateTotalIncome()}
+            totalExpense={this.calculateTotalExpense()}
+            balance={this.calculateTotalBalance()}
+            />
+          <div className="panel">
+            <div className="panel-bar">
+              <Control
+                inputType={()=>this.setInputScreen("Expense")}
+                title="Expense" />
+              <Control
+                inputType={()=>this.setInputScreen("Income")}
+                title="Income" />
+              <Control
+                inputType={()=>this.setInputScreen("Category")}
+                title="Category" />
+            </div>
+            <InputScreen
+              submitData={()=>this.closeInputScreen()}
+              revealInput={this.state.inputScreen}
+              categories={this.state.categories}
+              title={this.state.inputType} />
+          </div>
+        </div>
       </div>
     )
   }

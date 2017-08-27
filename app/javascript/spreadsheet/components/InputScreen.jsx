@@ -25,7 +25,7 @@ export default class InputScreen extends React.Component {
           name: document.getElementById("name").value,
           amount: document.getElementById("amount").value,
           item_type: document.getElementById("category").value,
-          is_expense: false,
+          is_expense: true,
         }
       };
       $.ajax({
@@ -34,23 +34,45 @@ export default class InputScreen extends React.Component {
         dataType: 'json',
         data: data
       }).success(()=>{console.log("sent!")});
-      this.props.toggleInput();
+      this.props.submitData();
     })
   }
 
   render() {
+    var nameForm = <div>
+      <label>Name:</label>
+      <input type="text" name="name" id="name"></input><br/>
+    </div>
+
+    var amountForm = <div>
+      <label>Amount:</label>
+      <input type="text" name="amount" id="amount"></input><br/>
+    </div>
+
+    var categoryForm = <div>
+      <label>Category:</label>
+      <select name="category" id="category">
+        { this.props.categories.map((e)=> {
+          return <option value={e}>{e}</option>
+        }) }
+      </select><br/>
+    </div>
+
+    var formElements;
+
+    if (this.props.title === "Expense") {
+      formElements = <div>{nameForm}{amountForm}{categoryForm}</div>
+    } else if (this.props.title === "Income") {
+      formElements = <div>{nameForm}{amountForm}</div>
+    } else {
+      formElements = <div>{nameForm}</div>
+    }
     if (this.props.revealInput) {
       return (
         <div id="input-modal">
-          <div id="close" onClick={()=>this.props.toggleInput()}>X</div>
-          <h2>Add</h2>
+          <h2>Add {this.props.title}</h2>
           <form>
-            <label>Name:</label>
-            <input type="text" name="name" id="name"></input>
-            <label>Amount:</label>
-            <input type="text" name="amount" id="amount"></input>
-            <label>Category:</label>
-            <input type="text" name="category" id="category"></input>
+            { formElements }
             <input type="submit" id="submit-button"></input>
           </form>
         </div>
