@@ -32,13 +32,13 @@ export default class Spreadsheet extends Component {
           <div className="panel-bar">
             <Control
               toggleInput={()=>this.showInputScreen()}
-              title="Add Expense" />
+              title="Expense" />
             <Control
               toggleInput={()=>this.showInputScreen()}
-              title="Add Income" />
+              title="Income" />
             <Control
               toggleInput={()=>this.showInputScreen()}
-              title="Add Category"
+              title="Category"
               />
           </div>
         </div>

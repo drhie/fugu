@@ -11,11 +11,11 @@ export default class Control extends React.Component {
   render() {
     return (
       <div
-        id="add-expense"
+        id={"add-"+this.props.title.toLowerCase()}
         className="panel-button border"
         onClick={()=>{this.props.toggleInput()}}
         >
-        {this.props.title}
+        Add {this.props.title}
       </div>
     )
   }

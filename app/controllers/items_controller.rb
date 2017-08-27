@@ -6,11 +6,7 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(item_params)
-    if @item.save
-      redirect_to root_url
-    else
-      render :new
-    end
+    @item.save
   end
 
   def edit
