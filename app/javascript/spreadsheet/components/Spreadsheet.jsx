@@ -2,25 +2,41 @@ import React, { Component } from 'react';
 import Balance from './Balance';
 import Grid from './Grid';
 import Control from './Control';
+import Income from './Income';
 import InputScreen from './InputScreen';
 
 export default class Spreadsheet extends Component {
   constructor() {
     super();
     this.state = {
+      name: "",
+      amount: "",
+      category: "",
       inputScreen: false,
       inputType: null,
       categories: ["Groceries", "Entertainment", "Utilities", "Misc"],
+      income: [],
       expenses: {
-        "Groceries": [{name: "cheese", amount: 100}, {name: "bread", amount: 200}],
-        "Entertainment": [{name: "movies", amount: 200}, {name: "magazines", amount: 5000}],
-        "Utilities": [{name: "water", amount: 5000}, {name: "internet", amount: 4000}, {name: "electricity", amount: 5000}],
-        "Misc": [{name: "key money", amount: 25000}]
-      }
+        "Groceries": [],
+        "Entertainment": [],
+        "Utilities": [],
+        "Misc": []
+      },
+      totalIncome: 0,
+      totalExpense: 0,
+      totalBalance: 0
     }
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleInputSubmit = this.handleInputSubmit.bind(this);
+    this.closeInputScreen = this.closeInputScreen.bind(this);
   }
 
-  closeInputScreen(i) {
+  componentDidMount() {
+    this.setState({category: this.state.categories[0]});
+  }
+
+  closeInputScreen() {
     if (this.state.inputScreen) {
       this.setState({ inputScreen: false });
     } else {
@@ -28,12 +44,84 @@ export default class Spreadsheet extends Component {
     }
   }
 
-  setInputScreen(i) {
+  handleInputChange(key, value) {
+    if (key === "amount") this.setState({amount: value});
+    if (key === "name") this.setState({name: value});
+    if (key === "category") this.setState({category: value});
+  }
+
+  handleInputSubmit(e) {
+    var name = this.state.name;
+    var amount = parseInt(this.state.amount);
+    var category = this.state.category;
+    var type = this.state.inputType.toLowerCase();
+    var categories = this.state.categories;
+    var expenses = this.state.expenses;
+    var income = this.state.income;
+    var totalIncome = this.state.totalIncome;
+    var totalExpense = this.state.totalExpense;
+    var totalBalance = this.state.totalBalance;
+
+    let data;
+
+    if (type === "category") {
+      categories.push(name);
+      expenses[name] = [];
+      this.setState({
+        categories: categories,
+        expenses: expenses
+      })
+    } else {
+      if (type === "expense") {
+        data = {
+          item: {
+            name: name,
+            amount: amount,
+            item_type: category,
+            is_expense: true
+          }
+        }
+      } else if (type === "income") {
+        data = {
+          item: {
+            name: name,
+            amount: amount,
+            item_type: "income",
+            is_expense: false
+          }
+        }
+      }
+      $.ajax({
+        url: '/items',
+        type: 'POST',
+        dataType: 'json',
+        data: data
+      }).success((data)=>{
+        if (type === "expense") {
+          expenses[category].push({name: name, amount: amount});
+          totalExpense += amount;
+          totalBalance -= amount;
+          this.setState({expenses: expenses, totalExpense: totalExpense, totalBalance: totalBalance});
+        } else if (type === "income") {
+          income.push({name: name, amount: amount});
+          totalIncome += amount;
+          totalBalance += amount;
+          this.setState({income: income, totalIncome: totalIncome, totalBalance: totalBalance});
+        }
+      });
+
+    }
+  }
+
+  setInputType(i) {
     this.setState({inputScreen: true, inputType: i})
   }
 
   calculateTotalIncome() {
     let total = 0;
+    income.forEach(function(e) {
+      total += e["amount"]
+    });
     return total;
   }
 
@@ -55,32 +143,36 @@ export default class Spreadsheet extends Component {
   render() {
     return (
       <div className="border">
+        <Income income={this.state.income} totalIncome = {this.state.totalIncome} />
         <Grid
           items={this.state.expenses}
           categories={this.state.categories} />
         <div className="border balance">
           <Balance
-            totalIncome={this.calculateTotalIncome()}
-            totalExpense={this.calculateTotalExpense()}
-            balance={this.calculateTotalBalance()}
+            totalIncome={this.state.totalIncome}
+            totalExpense={this.state.totalExpense}
+            balance={this.state.totalBalance}
             />
           <div className="panel">
             <div className="panel-bar">
               <Control
-                inputType={()=>this.setInputScreen("Expense")}
+                inputType={()=>this.setInputType("Expense")}
                 title="Expense" />
               <Control
-                inputType={()=>this.setInputScreen("Income")}
+                inputType={()=>this.setInputType("Income")}
                 title="Income" />
               <Control
-                inputType={()=>this.setInputScreen("Category")}
+                inputType={()=>this.setInputType("Category")}
                 title="Category" />
             </div>
             <InputScreen
-              submitData={()=>this.closeInputScreen()}
+              closeOnSubmit={this.closeInputScreen}
               revealInput={this.state.inputScreen}
               categories={this.state.categories}
-              title={this.state.inputType} />
+              title={this.state.inputType}
+
+              onInputChange={this.handleInputChange}
+              onInputSubmit={this.handleInputSubmit} />
           </div>
         </div>
       </div>

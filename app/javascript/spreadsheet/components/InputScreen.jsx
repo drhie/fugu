@@ -2,56 +2,50 @@ import React from 'react'
 
 
 export default class InputScreen extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-    }
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
   }
 
   componentDidUpdate() {
-    this.props.revealInput ? this.submitButton() : window.removeEventListener('click', document.getElementById('submit-button'));
+    // this.props.revealInput ? this.submitButton() : window.removeEventListener('click', document.getElementById('submit-button'));
   }
 
-  submitButton() {
-    const modal = document.getElementById('input-modal');
-    const submitButton = document.getElementById('submit-button');
-    submitButton.addEventListener('click', (e)=> {
-      e.preventDefault();
-      let data = {
-        item: {
-          name: document.getElementById("name").value,
-          amount: document.getElementById("amount").value,
-          item_type: document.getElementById("category").value,
-          is_expense: true,
-        }
-      };
-      $.ajax({
-        url: '/items',
-        type: 'POST',
-        dataType: 'json',
-        data: data
-      }).success(()=>{console.log("sent!")});
-      this.props.submitData();
-    })
+  handleChange(e) {
+    this.props.onInputChange(e.target.name, e.target.value);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.onInputSubmit(e);
+    this.props.closeOnSubmit();
   }
 
   render() {
+    const name = this.props.name;
     var nameForm = <div>
       <label>Name:</label>
-      <input type="text" name="name" id="name"></input><br/>
+      <input type="text"
+        name="name"
+        id="name"
+        onChange={this.handleChange} /><br/>
     </div>
 
     var amountForm = <div>
       <label>Amount:</label>
-      <input type="text" name="amount" id="amount"></input><br/>
+      <input type="text"
+        name="amount"
+        id="amount"
+        onChange={this.handleChange} /><br/>
     </div>
 
     var categoryForm = <div>
       <label>Category:</label>
-      <select name="category" id="category">
+      <select name="category" id="category" onChange={this.handleChange}>
         { this.props.categories.map((e)=> {
           return <option value={e}>{e}</option>
         }) }
@@ -71,9 +65,9 @@ export default class InputScreen extends React.Component {
       return (
         <div id="input-modal">
           <h2>Add {this.props.title}</h2>
-          <form>
+          <form onSubmit={this.handleSubmit} id={this.props.title.toLowerCase()}>
             { formElements }
-            <input type="submit" id="submit-button"></input>
+            <input type="submit" id="submit-button" value="Submit" />
           </form>
         </div>
       );
