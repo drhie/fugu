@@ -27,29 +27,40 @@ export default class InputScreen extends React.Component {
 
   render() {
     const name = this.props.name;
-    var nameForm = <div>
-      <label>Name:</label>
-      <input type="text"
-        name="name"
-        id="name"
-        onChange={this.handleChange} /><br/>
-    </div>
+    var nameForm;
+    if (this.props.title === "Category") {
+      nameForm = <div className="name-form" id="category">
+        <label>Name:</label>
+        <input type="text"
+          name="name"
+          id="name"
+          onChange={this.handleChange} />
+      </div>
+    } else {
+      nameForm = <div className="name-form">
+        <label>Name:</label>
+        <input type="text"
+          name="name"
+          id="name"
+          onChange={this.handleChange} />
+      </div>
+    }
 
-    var amountForm = <div>
+    var amountForm = <div className="amount-form">
       <label>Amount:</label>
       <input type="text"
         name="amount"
         id="amount"
-        onChange={this.handleChange} /><br/>
+        onChange={this.handleChange} />
     </div>
 
-    var categoryForm = <div>
+    var categoryForm = <div className="category-form">
       <label>Category:</label>
       <select name="category" id="category" onChange={this.handleChange}>
         { this.props.categories.map((e)=> {
           return <option value={e}>{e}</option>
         }) }
-      </select><br/>
+      </select>
     </div>
 
     var formElements;

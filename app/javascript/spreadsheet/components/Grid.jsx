@@ -13,7 +13,7 @@ export default class Grid extends React.Component {
       <div className="border grid">
         <div className="columns">
           { this.props.categories.map(function(category) {
-            return <div className="border column">
+            return <div className="column">
               <Column heading={category} items={this.props.items} />
             </div>
           }.bind(this)) }
