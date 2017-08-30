@@ -11,10 +11,12 @@ class SpreadsheetsController < ApplicationController
   def create
     @spreadsheet = Spreadsheet.new(spreadsheet_params)
     if @spreadsheet.save
-      redirect_to root_url
-    else
-      render :new
+      redirect_to spreadsheet_path(@spreadsheet)
     end
+  end
+
+  def show
+    @spreadsheet = Spreadsheet.find(params[:id])
   end
 
   def edit

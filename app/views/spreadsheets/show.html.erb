@@ -1,0 +1,16 @@
+<%= content_tag :div,
+  id: "root",
+  data: {
+    categories: @spreadsheet.get_categories,
+    income: @spreadsheet.get_income,
+    expenses: @spreadsheet.get_expenses,
+    totalIncome: @spreadsheet.calculate_balance[:income],
+    totalExpense: @spreadsheet.calculate_balance[:expense],
+    balance: @spreadsheet.calculate_balance[:total],
+    info: {
+      id: @spreadsheet.id,
+      title: @spreadsheet.name,
+      currency: @spreadsheet.currency
+    }
+}.to_json do %>
+<% end %>

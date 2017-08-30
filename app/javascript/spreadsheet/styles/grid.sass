@@ -1,6 +1,7 @@
 .item-box
   width: 100%
   overflow: auto
+  border: 1px solid gray
   p
     margin: 0px
   .item-name
@@ -9,6 +10,10 @@
     padding: 0 5px
     text-align: right
     width: 100%
+.item-box:hover
+  opacity: 0.8
+  border: 1px solid yellow
+  cursor: pointer
 
 .odd-row
   background: linear-gradient(90deg, ghostwhite, darkgray)

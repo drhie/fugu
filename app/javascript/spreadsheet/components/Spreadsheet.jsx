@@ -29,7 +29,6 @@ export default class Spreadsheet extends Component {
   }
 
   componentDidMount() {
-    this.setCategory();
     this.setState({
       categories: this.props.categories,
       income: this.props.income,
@@ -46,10 +45,6 @@ export default class Spreadsheet extends Component {
     } else {
       this.setState({ inputScreen: true });
     }
-  }
-
-  setCategory() {
-    this.setState({category: this.state.categories[0]});
   }
 
   handleInputChange(key, value) {
@@ -88,7 +83,8 @@ export default class Spreadsheet extends Component {
             name: name,
             amount: amount,
             item_type: category,
-            is_expense: true
+            is_expense: true,
+            spreadsheet_id: this.props.info["id"]
           }
         }
       } else if (type === "income") {
@@ -97,7 +93,8 @@ export default class Spreadsheet extends Component {
             name: name,
             amount: amount,
             item_type: "income",
-            is_expense: false
+            is_expense: false,
+            spreadsheet_id: this.props.info["id"]
           }
         }
       }
@@ -155,7 +152,7 @@ export default class Spreadsheet extends Component {
   }
 
   generateControlPanel() {
-    if (this.state.categories.length > 0) {
+    if (this.state.categories && this.state.categories.length > 0) {
       return (
         <div className="panel-bar">
           <Control
@@ -185,31 +182,34 @@ export default class Spreadsheet extends Component {
 
   render() {
     return (
-      <div className="border">
-        <Income
-          income={this.state.income}
-          totalIncome={this.state.totalIncome}
-          totalExpense={this.state.totalExpense} />
-        <div id="main-section">
-          <Grid
-            items={this.state.expenses}
-            categories={this.state.categories} />
-          <div className="border info-control">
-            <Balance
-              totalIncome={this.state.totalIncome}
-              totalExpense={this.state.totalExpense}
-              balance={this.state.totalBalance}
-              />
-            <div className="panel">
-              { this.generateControlPanel() }
-              <InputScreen
-                closeOnSubmit={this.closeInputScreen}
-                revealInput={this.state.inputScreen}
-                categories={this.state.categories}
-                title={this.state.inputType}
+      <div id="shell">
+        <h2 className="spreadsheet-title">{this.props.info["title"]}</h2>
+        <div className="border">
+          <Income
+            income={this.state.income}
+            totalIncome={this.state.totalIncome}
+            totalExpense={this.state.totalExpense} />
+          <div id="main-section">
+            <Grid
+              items={this.state.expenses}
+              categories={this.state.categories} />
+            <div className="border info-control">
+              <Balance
+                totalIncome={this.state.totalIncome}
+                totalExpense={this.state.totalExpense}
+                balance={this.state.totalBalance}
+                />
+              <div className="panel">
+                { this.generateControlPanel() }
+                <InputScreen
+                  closeOnSubmit={this.closeInputScreen}
+                  revealInput={this.state.inputScreen}
+                  categories={this.state.categories}
+                  title={this.state.inputType}
 
-                onInputChange={this.handleInputChange}
-                onInputSubmit={this.handleInputSubmit} />
+                  onInputChange={this.handleInputChange}
+                  onInputSubmit={this.handleInputSubmit} />
+              </div>
             </div>
           </div>
         </div>

@@ -66,9 +66,9 @@ export default class InputScreen extends React.Component {
     var formElements;
 
     if (this.props.title === "Expense") {
-      formElements = <div>{nameForm}{amountForm}{categoryForm}</div>
+      formElements = <div><div className="form-top-half">{nameForm}{amountForm}</div>{categoryForm}</div>
     } else if (this.props.title === "Income") {
-      formElements = <div>{nameForm}{amountForm}</div>
+      formElements = <div className="form-top-half">{nameForm}{amountForm}</div>
     } else {
       formElements = <div>{nameForm}</div>
     }

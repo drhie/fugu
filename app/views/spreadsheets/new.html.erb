@@ -1,0 +1,13 @@
+<%= form_for @spreadsheet do |f| %>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :currency %>
+    <%= f.text_field :currency %>
+  </div>
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

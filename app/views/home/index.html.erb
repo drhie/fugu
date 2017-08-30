@@ -4,24 +4,9 @@
 </div>
 
 <div id="selection-section">
-  <button id="create-spreadsheet">Create Spreadsheet</button>
+  <%= link_to "Create a Spreadsheet", new_spreadsheet_path %>
+  <h4>Edit Spreadsheets</h4>
   <% @spreadsheets.each do |s| %>
-    <button id="edit-<%=s.id%>">Edit <%= s.name %></button>
+    <%= link_to "Edit #{s.name}", spreadsheet_path(s) %>
   <% end %>
 </div>
-
-<%= content_tag :div,
-  id: "root",
-  data: {
-    categories: @spreadsheet.get_categories,
-    income: @spreadsheet.get_income,
-    expenses: @spreadsheet.get_expenses,
-    totalIncome: @spreadsheet.calculate_balance[:income],
-    totalExpense: @spreadsheet.calculate_balance[:expense],
-    balance: @spreadsheet.calculate_balance[:total]
-}.to_json do %>
-<% end %>
-
-<%= @items.each do |x| %>
-  <div><%= x %></div>
-<% end %>
