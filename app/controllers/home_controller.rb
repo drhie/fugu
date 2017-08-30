@@ -1,5 +1,7 @@
 class HomeController < ApplicationController
   def index
-    @total = 0
+    @items = Item.all
+    @spreadsheets = Spreadsheet.all
+    @spreadsheet = Spreadsheet.first
   end
 end

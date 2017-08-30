@@ -6,8 +6,8 @@ import Income from './Income';
 import InputScreen from './InputScreen';
 
 export default class Spreadsheet extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       name: "",
       amount: "",
@@ -30,6 +30,14 @@ export default class Spreadsheet extends Component {
 
   componentDidMount() {
     this.setCategory();
+    this.setState({
+      categories: this.props.categories,
+      income: this.props.income,
+      expenses: this.props.expenses,
+      totalIncome: this.props.totalIncome,
+      totalExpense: this.props.totalExpense,
+      totalBalance: this.props.balance
+    })
   }
 
   closeInputScreen() {
@@ -64,7 +72,6 @@ export default class Spreadsheet extends Component {
     let data;
 
     name = e.target.elements.name.value;
-
     if (type === "category") {
       categories.push(name);
       expenses[name] = [];

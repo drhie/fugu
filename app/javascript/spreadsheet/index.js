@@ -6,22 +6,25 @@ import './styles/spreadsheets.sass'
 
 document.addEventListener('DOMContentLoaded', ()=> {
   const container = document.body.appendChild(document.createElement('div'));
-  // document.getElementById('create-spreadsheet').addEventListener('click', (e)=> {
-  //   e.preventDefault();
-  //   let data = {
-  //     spreadsheet: {
-  //       name: "Test",
-  //       currency: "JPY"
-  //     }
-  //   };
-  //   $.ajax({
-  //     url: '/spreadsheets',
-  //     type: "POST",
-  //     data: data,
-  //     dataType: "JSON"
-  //   }).success((data)=>{
-  //     console.log("Data!" + data);
-  //   })
-    ReactDOM.render(<Spreadsheet />, container);
-  // })
+  const root = document.getElementById('root');
+  const loadData = JSON.parse(root.getAttribute('data'));
+  document.getElementById('create-spreadsheet').addEventListener('click', (e)=> {
+    e.preventDefault();
+    let data = {
+      spreadsheet: {
+        name: "Test",
+        currency: "JPY"
+      }
+    };
+    $.ajax({
+      url: '/spreadsheets',
+      type: "POST",
+      data: data,
+      dataType: "JSON"
+    }).success(function(data) {
+      console.log("Data!" + data);
+      debugger;
+    })
+    ReactDOM.render(<Spreadsheet {...loadData} />, root);
+  })
 })
