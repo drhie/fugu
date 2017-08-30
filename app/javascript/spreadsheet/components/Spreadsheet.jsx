@@ -14,14 +14,9 @@ export default class Spreadsheet extends Component {
       category: "",
       inputScreen: false,
       inputType: null,
-      categories: ["Groceries", "Entertainment", "Utilities", "Misc"],
+      categories: [],
       income: [],
-      expenses: {
-        "Groceries": [{name: "cheese", amount: 5000}, {name: "chocolate", amount: 2400}],
-        "Entertainment": [{name: "cheese", amount: 5000}],
-        "Utilities": [{name: "cheese", amount: 5000}, {name: "willy", amount: 300}],
-        "Misc": [{name: "chocolate", amount: 2400}, {name: "chocolate", amount: 2400}, {name: "chocolate", amount: 2400}, {name: "chocolate", amount: 2400}, {name: "chocolate", amount: 2400}]
-      },
+      expenses: {},
 
       totalIncome: 0,
       totalExpense: 0,
@@ -34,7 +29,7 @@ export default class Spreadsheet extends Component {
   }
 
   componentDidMount() {
-    this.setState({category: this.state.categories[0]});
+    this.setCategory();
   }
 
   closeInputScreen() {
@@ -45,6 +40,10 @@ export default class Spreadsheet extends Component {
     }
   }
 
+  setCategory() {
+    this.setState({category: this.state.categories[0]});
+  }
+
   handleInputChange(key, value) {
     if (key === "amount") this.setState({amount: value});
     if (key === "name") this.setState({name: value});
@@ -52,9 +51,8 @@ export default class Spreadsheet extends Component {
   }
 
   handleInputSubmit(e) {
-    var name = this.state.name;
-    var amount = parseInt(this.state.amount);
-    var category = this.state.category;
+    var name, amount, category;
+
     var type = this.state.inputType.toLowerCase();
     var categories = this.state.categories;
     var expenses = this.state.expenses;
@@ -65,6 +63,8 @@ export default class Spreadsheet extends Component {
 
     let data;
 
+    name = e.target.elements.name.value;
+
     if (type === "category") {
       categories.push(name);
       expenses[name] = [];
@@ -73,7 +73,9 @@ export default class Spreadsheet extends Component {
         expenses: expenses
       })
     } else {
+      amount = parseInt(e.target.elements.amount.value);
       if (type === "expense") {
+        category = e.target.elements.category.value;
         data = {
           item: {
             name: name,
@@ -99,7 +101,11 @@ export default class Spreadsheet extends Component {
         data: data
       }).success((data)=>{
         if (type === "expense") {
-          expenses[category].push({name: name, amount: amount});
+          if (expenses.hasOwnProperty(category)) {
+            expenses[category].push({name: name, amount: amount});
+          } else {
+            expenses[category] = [{name: name, amount: amount}];
+          }
           totalExpense += amount;
           totalBalance -= amount;
           this.setState({expenses: expenses, totalExpense: totalExpense, totalBalance: totalBalance});
@@ -141,6 +147,35 @@ export default class Spreadsheet extends Component {
     return this.calculateTotalIncome() - this.calculateTotalExpense();
   }
 
+  generateControlPanel() {
+    if (this.state.categories.length > 0) {
+      return (
+        <div className="panel-bar">
+          <Control
+            inputType={()=>this.setInputType("Expense")}
+            title="Expense" />
+          <Control
+            inputType={()=>this.setInputType("Income")}
+            title="Income" />
+          <Control
+            inputType={()=>this.setInputType("Category")}
+            title="Category" />
+        </div>
+      )
+    } else {
+      return (
+        <div className="panel-bar">
+          <Control
+            inputType={()=>this.setInputType("Income")}
+            title="Income" />
+          <Control
+            inputType={()=>this.setInputType("Category")}
+            title="Category" />
+        </div>
+      )
+    }
+  }
+
   render() {
     return (
       <div className="border">
@@ -159,17 +194,7 @@ export default class Spreadsheet extends Component {
               balance={this.state.totalBalance}
               />
             <div className="panel">
-              <div className="panel-bar">
-                <Control
-                  inputType={()=>this.setInputType("Expense")}
-                  title="Expense" />
-                <Control
-                  inputType={()=>this.setInputType("Income")}
-                  title="Income" />
-                <Control
-                  inputType={()=>this.setInputType("Category")}
-                  title="Category" />
-              </div>
+              { this.generateControlPanel() }
               <InputScreen
                 closeOnSubmit={this.closeInputScreen}
                 revealInput={this.state.inputScreen}
