@@ -14,9 +14,16 @@
   </head>
 
   <body>
-    <div id="root"></div>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
+    <div class="navbar">
+      <% if current_user %>
+        <%= link_to "Log out", destroy_user_session_path %>
+      <% else %>
+        <%= link_to "Sign in", new_user_session_path %>
+        <%= link_to "Register", new_user_registration_path %>
+      <% end %>
+    </div>
     <%= yield %>
   </body>
 </html>
