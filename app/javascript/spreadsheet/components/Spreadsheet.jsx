@@ -17,6 +17,7 @@ export default class Spreadsheet extends Component {
       categories: [],
       income: [],
       expenses: {},
+      currency: "USD",
 
       totalIncome: 0,
       totalExpense: 0,
@@ -33,9 +34,10 @@ export default class Spreadsheet extends Component {
       categories: this.props.categories,
       income: this.props.income,
       expenses: this.props.expenses,
-      totalIncome: this.props.totalIncome,
-      totalExpense: this.props.totalExpense,
-      totalBalance: this.props.balance
+      totalIncome: parseInt(this.props.totalIncome),
+      totalExpense: parseInt(this.props.totalExpense),
+      totalBalance: parseInt(this.props.balance),
+      currency: this.props.info["currency"]
     })
   }
 
@@ -190,11 +192,9 @@ export default class Spreadsheet extends Component {
             totalIncome={this.state.totalIncome}
             totalExpense={this.state.totalExpense} />
           <div id="main-section">
-            <Grid
-              items={this.state.expenses}
-              categories={this.state.categories} />
             <div className="border info-control">
               <Balance
+                currency={this.state.currency}
                 totalIncome={this.state.totalIncome}
                 totalExpense={this.state.totalExpense}
                 balance={this.state.totalBalance}
@@ -211,6 +211,9 @@ export default class Spreadsheet extends Component {
                   onInputSubmit={this.handleInputSubmit} />
               </div>
             </div>
+            <Grid
+              items={this.state.expenses}
+              categories={this.state.categories} />
           </div>
         </div>
       </div>
