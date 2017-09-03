@@ -8,7 +8,7 @@
   <% if @spreadsheets.length > 0 %>
     <h4>Edit Spreadsheets</h4>
     <% @spreadsheets.each do |s| %>
-      <%= link_to "Edit #{s.name}", spreadsheet_path(s) %>
+      <%= link_to "Edit #{s.name}", spreadsheet_path(s), method: :get %>
     <% end %>
   <% end %>
 </div>
