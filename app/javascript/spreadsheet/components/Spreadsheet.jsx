@@ -13,6 +13,7 @@ export default class Spreadsheet extends Component {
       amount: "",
       category: "",
       inputScreen: false,
+      editScreen: false,
       inputType: null,
       categories: [],
       income: [],
@@ -182,6 +183,11 @@ export default class Spreadsheet extends Component {
     }
   }
 
+  onEdit() {
+    this.setState({editScreen: true});
+    console.log("OH MY GOD!!!")
+  }
+
   render() {
     return (
       <div id="shell">
@@ -213,7 +219,11 @@ export default class Spreadsheet extends Component {
             </div>
             <Grid
               items={this.state.expenses}
-              categories={this.state.categories} />
+              categories={this.state.categories}
+              name={this.state.name}
+              amount={this.state.amount}
+              category={this.state.category}
+              onEdit={()=>{this.onEdit()}}/>
           </div>
         </div>
       </div>

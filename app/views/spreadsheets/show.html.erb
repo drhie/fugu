@@ -14,3 +14,5 @@
     }
 }.to_json do %>
 <% end %>
+<%= link_to "Home", root_url %> | 
+<%= link_to "Delete", @spreadsheet, method: :delete, data: {confirm: "Are you sure?"} %>
