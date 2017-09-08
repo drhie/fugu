@@ -70,6 +70,11 @@ export default class Spreadsheet extends Component {
   }
 
   handleInputSubmit(e) {
+    var inputValues = {
+      name: e.target.name ? e.target.name.value : undefined,
+      amount: e.target.amount ? e.target.amount.value : undefined,
+      category: e.target.category ? e.target.category.value : undefined
+    }
     var name, amount, category;
 
     var type = this.state.inputType.toLowerCase();
@@ -84,10 +89,10 @@ export default class Spreadsheet extends Component {
     let ajaxUrl = this.state.itemToEdit ? "/items/" + this.state.itemToEdit : "/items";
     let ajaxType = this.state.itemToEdit ? "PATCH" : "POST";
     var getLastItem = lastItem(this.props.info["id"]);
+    let itemToEdit = this.state.itemToEdit;
 
     let data;
-
-    name = e.target.elements.name.value;
+    name = inputValues["name"];
     if (type === "category") {
       categories.push(name);
       expenses[name] = [];
@@ -96,9 +101,9 @@ export default class Spreadsheet extends Component {
         expenses: expenses
       })
     } else {
-      amount = parseInt(e.target.elements.amount.value);
+      amount = parseInt(inputValues["amount"]);
       if (type === "expense") {
-        category = e.target.elements.category.value;
+        category = inputValues["category"];
         data = {
           item: {
             name: name,
@@ -145,6 +150,17 @@ export default class Spreadsheet extends Component {
             totalBalance += amount;
             this.setState({income: income, totalIncome: totalIncome, totalBalance: totalBalance});
           }
+        } else if (ajaxType === "PATCH") {
+          if (type === "expense") {
+            expenses[category].forEach(function(item) {
+              if (item.id === itemToEdit) {
+                item["name"] = inputValues["name"];
+                item["amount"] = inputValues["amount"];
+                item["category"] = inputValues["category"];
+              }
+            });
+            this.setState({expenses: expenses, totalExpense: this.calculateTotalExpense(), totalBalance: this.calculateTotalBalance()});
+          }
         }
       });
 
@@ -157,18 +173,19 @@ export default class Spreadsheet extends Component {
 
   calculateTotalIncome() {
     let total = 0;
+    let income = this.state.income;
     income.forEach(function(e) {
-      total += e["amount"]
+      total += parseInt(e["amount"]);
     });
     return total;
   }
 
   calculateTotalExpense() {
-    let expenses = this.state.expenses;
     let total = 0;
+    let expenses = this.state.expenses;
     for (var key in expenses) {
       expenses[key].forEach(function(e) {
-        total += e["amount"]
+        total += parseInt(e["amount"]);
       })
     }
     return total;
