@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   resources :spreadsheets
   resources :items, except: [:index, :show]
 
+  get 'spreadsheets/:id/last_item' => 'spreadsheets#last_item'
+
 end

@@ -50,5 +50,4 @@ class Spreadsheet < ApplicationRecord
     end
     expenses
   end
-
 end

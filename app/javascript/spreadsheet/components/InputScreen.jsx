@@ -26,7 +26,10 @@ export default class InputScreen extends React.Component {
   }
 
   render() {
-    const name = this.props.name;
+    var name = this.props.name;
+    var amount = this.props.amount;
+    var category = this.props.category;
+
     var nameForm;
     if (this.props.title === "Category") {
       nameForm = <div className="name-form" id="category">
@@ -40,8 +43,9 @@ export default class InputScreen extends React.Component {
       nameForm = <div className="name-form">
         <label>Name:</label>
         <input type="text"
-          name="name"
           id="name"
+          name="name"
+          value={name}
           onChange={this.handleChange} />
       </div>
     }
@@ -51,12 +55,13 @@ export default class InputScreen extends React.Component {
       <input type="text"
         name="amount"
         id="amount"
+        value={amount}
         onChange={this.handleChange} />
     </div>
 
     var categoryForm = <div className="category-form">
       <label>Category:</label>
-      <select name="category" id="category" onChange={this.handleChange}>
+      <select name="category" id="category" value={category} onChange={this.handleChange}>
         { this.props.categories.map((e)=> {
           return <option value={e}>{e}</option>
         }) }

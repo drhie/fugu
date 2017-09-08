@@ -5,6 +5,14 @@ import Control from './Control';
 import Income from './Income';
 import InputScreen from './InputScreen';
 
+var lastItem = function(spreadsheetID) {
+  return $.ajax({
+    url: spreadsheetID + "/last_item",
+    dataType: "JSON",
+    type: "GET"
+  })
+}
+
 export default class Spreadsheet extends Component {
   constructor(props) {
     super(props);
@@ -13,12 +21,14 @@ export default class Spreadsheet extends Component {
       amount: "",
       category: "",
       inputScreen: false,
-      editScreen: false,
       inputType: null,
+      itemToEdit: null,
       categories: [],
       income: [],
       expenses: {},
       currency: "USD",
+
+      info: {},
 
       totalIncome: 0,
       totalExpense: 0,
@@ -28,6 +38,8 @@ export default class Spreadsheet extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputSubmit = this.handleInputSubmit.bind(this);
     this.closeInputScreen = this.closeInputScreen.bind(this);
+    this.onEdit = this.onEdit.bind(this);
+    this.onNew = this.onNew.bind(this);
   }
 
   componentDidMount() {
@@ -38,7 +50,8 @@ export default class Spreadsheet extends Component {
       totalIncome: parseInt(this.props.totalIncome),
       totalExpense: parseInt(this.props.totalExpense),
       totalBalance: parseInt(this.props.balance),
-      currency: this.props.info["currency"]
+      currency: this.props.info["currency"],
+      info: this.props.info
     })
   }
 
@@ -66,6 +79,11 @@ export default class Spreadsheet extends Component {
     var totalIncome = this.state.totalIncome;
     var totalExpense = this.state.totalExpense;
     var totalBalance = this.state.totalBalance;
+
+
+    let ajaxUrl = this.state.itemToEdit ? "/items/" + this.state.itemToEdit : "/items";
+    let ajaxType = this.state.itemToEdit ? "PATCH" : "POST";
+    var getLastItem = lastItem(this.props.info["id"]);
 
     let data;
 
@@ -102,25 +120,31 @@ export default class Spreadsheet extends Component {
         }
       }
       $.ajax({
-        url: '/items',
-        type: 'POST',
+        url: ajaxUrl,
+        type: ajaxType,
         dataType: 'json',
         data: data
       }).success((data)=>{
-        if (type === "expense") {
-          if (expenses.hasOwnProperty(category)) {
-            expenses[category].push({name: name, amount: amount});
-          } else {
-            expenses[category] = [{name: name, amount: amount}];
+        if (ajaxType === "POST") {
+          var newItem;;
+          getLastItem.success(function(data) {
+            newItem = data;
+          });
+          if (type === "expense") {
+            if (expenses.hasOwnProperty(category)) {
+              expenses[category].push({id: newItem["id"], name: name, amount: amount, category: newItem["item_type"]});
+            } else {
+              expenses[category] = [{id: newItem["id"], name: name, amount: amount, category: newItem["item_type"]}];
+            }
+            totalExpense += amount;
+            totalBalance -= amount;
+            this.setState({expenses: expenses, totalExpense: totalExpense, totalBalance: totalBalance});
+          } else if (type === "income") {
+            income.push({id: newId, name: name, amount: amount});
+            totalIncome += amount;
+            totalBalance += amount;
+            this.setState({income: income, totalIncome: totalIncome, totalBalance: totalBalance});
           }
-          totalExpense += amount;
-          totalBalance -= amount;
-          this.setState({expenses: expenses, totalExpense: totalExpense, totalBalance: totalBalance});
-        } else if (type === "income") {
-          income.push({name: name, amount: amount});
-          totalIncome += amount;
-          totalBalance += amount;
-          this.setState({income: income, totalIncome: totalIncome, totalBalance: totalBalance});
         }
       });
 
@@ -160,13 +184,16 @@ export default class Spreadsheet extends Component {
         <div className="panel-bar">
           <Control
             inputType={()=>this.setInputType("Expense")}
-            title="Expense" />
+            title="Expense"
+            onNew={this.onNew} />
           <Control
             inputType={()=>this.setInputType("Income")}
-            title="Income" />
+            title="Income"
+            onNew={this.onNew} />
           <Control
             inputType={()=>this.setInputType("Category")}
-            title="Category" />
+            title="Category"
+            onNew={this.onNew} />
         </div>
       )
     } else {
@@ -185,7 +212,20 @@ export default class Spreadsheet extends Component {
 
   onEdit(item) {
     console.log(item["id"], item["name"], item["amount"], item["category"], "from Spreadsheet");
-    console.log("OH MY GOD!!!")
+    if (item["category"].toLowerCase() === "income") {
+      this.setState({inputType: "Income", inputScreen: true, itemToEdit: item["id"], name: item["name"], amount: item["amount"]});
+    } else {
+      this.setState({inputType: "Expense", inputScreen: true, itemToEdit: item["id"], name: item["name"], amount: item["amount"], category: item["category"]});
+    }
+  }
+
+  onNew() {
+    this.setState({
+      name: "",
+      amount: "",
+      category: "",
+      itemToEdit: null,
+    })
   }
 
   render() {
@@ -200,7 +240,7 @@ export default class Spreadsheet extends Component {
           <div id="main-section">
             <div className="border info-control">
               <Balance
-                currency={this.state.currency}
+                currency={this.state.info["currency"]}
                 totalIncome={this.state.totalIncome}
                 totalExpense={this.state.totalExpense}
                 balance={this.state.totalBalance}
@@ -212,6 +252,11 @@ export default class Spreadsheet extends Component {
                   revealInput={this.state.inputScreen}
                   categories={this.state.categories}
                   title={this.state.inputType}
+                  item={this.state.itemToEdit}
+
+                  name={this.state.name}
+                  amount={this.state.amount}
+                  category={this.state.category}
 
                   onInputChange={this.handleInputChange}
                   onInputSubmit={this.handleInputSubmit} />
@@ -223,7 +268,7 @@ export default class Spreadsheet extends Component {
               name={this.state.name}
               amount={this.state.amount}
               category={this.state.category}
-              onEdit={this.onEdit}/>
+              onEdit={this.onEdit} />
           </div>
         </div>
       </div>

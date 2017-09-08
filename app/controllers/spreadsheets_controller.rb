@@ -1,5 +1,5 @@
 class SpreadsheetsController < ApplicationController
-  before_action :load_spreadsheet, only: [:edit, :update, :destroy]
+  before_action :load_spreadsheet, only: [:edit, :update, :destroy, :last_item]
 
   def index
   end
@@ -33,6 +33,10 @@ class SpreadsheetsController < ApplicationController
   def destroy
     @spreadsheet.delete
     redirect_to root_url
+  end
+
+  def last_item
+    render json: @spreadsheet.items.last
   end
 
   def load_spreadsheet
