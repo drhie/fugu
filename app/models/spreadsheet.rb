@@ -32,7 +32,7 @@ class Spreadsheet < ApplicationRecord
   def get_income
     income = []
     self.items.each do |i|
-      income << {name: i.name, amount: i.amount} unless i.is_expense
+      income << {id: i.id, name: i.name, amount: i.amount, category: i.item_type} unless i.is_expense
     end
     income
   end
@@ -42,9 +42,9 @@ class Spreadsheet < ApplicationRecord
     self.items.each do |i|
       if i.is_expense
         if expenses.has_key?(i.item_type)
-          expenses[i.item_type] << {name: i.name, amount: i.amount}
+          expenses[i.item_type] << {id: i.id, name: i.name, amount: i.amount, category: i.item_type}
         else
-          expenses[i.item_type] = [{name: i.name, amount: i.amount}]
+          expenses[i.item_type] = [{id: i.id, name: i.name, amount: i.amount, category: i.item_type}]
         end
       end
     end

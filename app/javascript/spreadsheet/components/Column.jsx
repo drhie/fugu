@@ -20,19 +20,11 @@ export default class Column extends React.Component {
     }
   }
 
-  onEdit() {
-    this.props.onEdit();
-  }
-
   renderItem(item, evenOdd) {
     return (
-      <Item itemName={item["name"]}
+      <Item item={item}
         className={evenOdd}
-        itemAmount={item["amount"]}
-        name={this.props.name}
-        amount={this.props.amount}
-        category={this.props.category}
-        onEdit={()=>this.onEdit()} />
+        onEdit={this.props.onEdit} />
     )
   }
 

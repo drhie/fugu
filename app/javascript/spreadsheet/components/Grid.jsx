@@ -8,10 +8,6 @@ export default class Grid extends React.Component {
     }
   }
 
-  onEdit() {
-    this.props.onEdit();
-  }
-
   render() {
     return (
       <div className="border grid">
@@ -24,7 +20,7 @@ export default class Grid extends React.Component {
                 name={this.props.name}
                 amount={this.props.amount}
                 category={this.props.category}
-                onEdit={()=>this.onEdit()} />
+                onEdit={this.props.onEdit} />
             </div>
           }.bind(this)) }
         </div>

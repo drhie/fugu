@@ -183,8 +183,8 @@ export default class Spreadsheet extends Component {
     }
   }
 
-  onEdit() {
-    this.setState({editScreen: true});
+  onEdit(item) {
+    console.log(item["id"], item["name"], item["amount"], item["category"], "from Spreadsheet");
     console.log("OH MY GOD!!!")
   }
 
@@ -223,7 +223,7 @@ export default class Spreadsheet extends Component {
               name={this.state.name}
               amount={this.state.amount}
               category={this.state.category}
-              onEdit={()=>{this.onEdit()}}/>
+              onEdit={this.onEdit}/>
           </div>
         </div>
       </div>
