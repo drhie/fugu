@@ -4,6 +4,7 @@
     categories: @spreadsheet.get_categories,
     income: @spreadsheet.get_income,
     expenses: @spreadsheet.get_expenses,
+    items: @spreadsheet.items,
     totalIncome: @spreadsheet.calculate_balance[:income],
     totalExpense: @spreadsheet.calculate_balance[:expense],
     balance: @spreadsheet.calculate_balance[:total],
@@ -14,5 +15,5 @@
     }
 }.to_json do %>
 <% end %>
-<%= link_to "Home", root_url %> | 
+<%= link_to "Home", root_url %> |
 <%= link_to "Delete", @spreadsheet, method: :delete, data: {confirm: "Are you sure?"} %>
