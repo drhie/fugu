@@ -65,11 +65,14 @@ export default class InputScreen extends React.Component {
 
     var categoryForm = <div className="category-form">
       <label>Category:</label>
-      <select name="category" id="category" value={category} onChange={this.handleChange}>
-        { this.props.categories.map((e)=> {
-          return <option value={e}>{e}</option>
-        }) }
-      </select>
+      { this.props.categories.map((e)=> {
+        return <div>
+          <label>
+            <input type="radio" name="category" value={e} onChange={this.handleChange} checked={e === category} />
+            {e}
+          </label>
+        </div>
+      }) }
     </div>
 
     var formElements;
