@@ -1,38 +1,17 @@
-import React from 'react';
-
-
-function total(income) {
-  var total = 0;
-  income.forEach(function(i) {
-    total += i["amount"];
-  });
-  return total;
-}
+import React from 'react'
 
 export default class Income extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
-  incomeElements() {
-    var colors = ["royalblue", "seagreen", "darkorange", "mediumpurple", "chocolate"]
-    var income = this.props.income;
-    return income.map(function(i, n) {
-      console.log(i, (i["amount"]/total(income)*100));
-      return <div className="income-bar-part" style={{background: colors[n], width: (i["amount"]/total(income)*100) + "%", height: "25px"}}>{i["name"]}</div>
-    })
-  }
-
-  expenseElements() {
-    if (this.props.totalExpense > 0) {
-      return <div className="expense-bar-part" style={{width: (this.props.totalExpense/(total(this.props.income))*100) + "%"}}></div>
-    }
+  onEdit() {
+    return this.props.onEdit(this.props.item)
   }
 
   render() {
-    return <div className="income-bar">
-      {this.incomeElements()}
-      {this.expenseElements()}
-    </div>
+    return (
+      <div className="income-bar-part" style={{background: this.props.bgColor, width: this.props.width}} onClick={()=>this.onEdit()}>
+        <div className="delete" onClick={(e)=>{e.stopPropagation(); this.props.onDelete(this.props.item)}}>X</div>
+        {this.props.item["name"]}
+      </div>
+    )
   }
 }

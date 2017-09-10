@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Balance from './Balance';
 import Grid from './Grid';
 import Control from './Control';
-import Income from './Income';
+import IncomeBar from './IncomeBar';
 import InputScreen from './InputScreen';
 
 var lastItem = function(spreadsheetID) {
@@ -72,6 +72,7 @@ export default class Spreadsheet extends Component {
   organizeExpenses() {
     var items = this.props.items;
     var expenses = {};
+    var income = [];
     var expenseItems = items.forEach(function(item) {
       if (item.is_expense) {
         if (expenses.hasOwnProperty(item["item_type"])) {
@@ -79,9 +80,11 @@ export default class Spreadsheet extends Component {
         } else {
           expenses[item["item_type"]] = [{id: item["id"], name: item["name"], amount: item["amount"], category: item["item_type"]}];
         }
+      } else {
+        income.push({id: item["id"], name: item["name"], amount: item["amount"], category: "income"});
       }
     })
-    this.setState({expenses: expenses});
+    this.setState({expenses: expenses, income: income});
   }
 
   closeInputScreen() {
@@ -164,39 +167,37 @@ export default class Spreadsheet extends Component {
           getLastItem.success(function(data) {
             newItem = data;
           });
-          if (type === "expense") {
+          // if (type === "expense") {
             items.push({
               id: newItem["id"],
               name: name,
               amount: amount,
-              item_type: newItem["item_type"],
-              is_expense: true,
+              item_type: type === "expense" ? newItem["item_type"] : "income",
+              is_expense: type=== "expense" ? true : false,
               spreadsheet_id: this.props.info["id"]
             });
             this.setState(
               {items: items},
               function() {this.update()}
             );
-          } else if (type === "income") {
-            income.push({id: newId, name: name, amount: amount});
-            totalIncome += amount;
-            totalBalance += amount;
-            this.setState({income: income, totalIncome: totalIncome, totalBalance: totalBalance});
-          }
+          // } else if (type === "income") {
+          //   income.push({id: newId, name: name, amount: amount});
+          //   totalIncome += amount;
+          //   totalBalance += amount;
+          //   this.setState({income: income, totalIncome: totalIncome, totalBalance: totalBalance});
+          // }
         } else if (ajaxType === "PATCH") {
-          if (type === "expense") {
-            items.forEach(function(item) {
-              if (item.id === itemToEdit) {
-                item["name"] = inputValues["name"];
-                item["amount"] = inputValues["amount"];
-                item["item_type"] = inputValues["category"];
-              }
-            });
-            this.setState(
-              {items: items},
-              function() {this.update()}
-            );
-          }
+          items.forEach(function(item) {
+            if (item.id === itemToEdit) {
+              item["name"] = inputValues["name"];
+              item["amount"] = parseInt(inputValues["amount"]);
+              item["item_type"] = inputValues["category"] || "income";
+            }
+          });
+          this.setState(
+            {items: items},
+            function() {this.update()}
+          );
         }
       });
 
@@ -221,7 +222,6 @@ export default class Spreadsheet extends Component {
     let items = this.state.items;
     let expenses = items.forEach(function(e) {
       if (e.is_expense) {
-        console.log(e);
         total += parseInt(e["amount"]);
       }
     })
@@ -305,10 +305,14 @@ export default class Spreadsheet extends Component {
       <div id="shell">
         <h2 className="spreadsheet-title">{this.props.info["title"]}</h2>
         <div className="border">
-          <Income
+          <IncomeBar
             income={this.state.income}
             totalIncome={this.state.totalIncome}
-            totalExpense={this.state.totalExpense} />
+            totalExpense={this.state.totalExpense}
+            item={this.state.itemToEdit}
+
+            onEdit={this.onEdit}
+            onDelete={this.onDelete} />
           <div id="main-section">
             <div className="border info-control">
               <Balance
