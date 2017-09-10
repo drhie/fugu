@@ -55,7 +55,7 @@ export default class Spreadsheet extends Component {
       currency: this.props.info["currency"],
       info: this.props.info
     })
-    this.organizeExpenses();
+    this.organizeItems();
   }
 
   update() {
@@ -65,11 +65,11 @@ export default class Spreadsheet extends Component {
       totalExpense: this.calculateTotalExpense(),
       totalBalance: this.calculateTotalBalance()
       },
-      function() {this.organizeExpenses()}
-  )
+      function() {this.organizeItems()}
+    )
   }
 
-  organizeExpenses() {
+  organizeItems() {
     var items = this.props.items;
     var expenses = {};
     var income = [];
@@ -167,25 +167,18 @@ export default class Spreadsheet extends Component {
           getLastItem.success(function(data) {
             newItem = data;
           });
-          // if (type === "expense") {
-            items.push({
-              id: newItem["id"],
-              name: name,
-              amount: amount,
-              item_type: type === "expense" ? newItem["item_type"] : "income",
-              is_expense: type=== "expense" ? true : false,
-              spreadsheet_id: this.props.info["id"]
-            });
-            this.setState(
-              {items: items},
-              function() {this.update()}
-            );
-          // } else if (type === "income") {
-          //   income.push({id: newId, name: name, amount: amount});
-          //   totalIncome += amount;
-          //   totalBalance += amount;
-          //   this.setState({income: income, totalIncome: totalIncome, totalBalance: totalBalance});
-          // }
+          items.push({
+            id: newItem["id"],
+            name: name,
+            amount: amount,
+            item_type: type === "expense" ? newItem["item_type"] : "income",
+            is_expense: type=== "expense" ? true : false,
+            spreadsheet_id: this.props.info["id"]
+          });
+          this.setState(
+            {items: items},
+            function() {this.update()}
+          );
         } else if (ajaxType === "PATCH") {
           items.forEach(function(item) {
             if (item.id === itemToEdit) {

@@ -12,7 +12,6 @@ function total(income) {
 export default class IncomeBar extends React.Component {
   constructor(props) {
     super(props);
-    this.incomeElements = this.incomeElements.bind(this);
   }
 
   onEdit() {
@@ -29,15 +28,24 @@ export default class IncomeBar extends React.Component {
   }
 
   expenseElements() {
+    var widthAmount = this.props.totalExpense > this.props.totalIncome ? "100%" : (this.props.totalExpense/(total(this.props.income))*100) + "%";
     if (this.props.totalExpense > 0) {
-      return <div className="expense-bar-part" style={{width: (this.props.totalExpense/(total(this.props.income))*100) + "%"}}></div>
+      return <div className="expense-bar-part" style={{width: widthAmount}}></div>
     }
+  }
+
+  width(subject, object) {
+    return subject > object ? "100%" : subject/object*100 + "%"
   }
 
   render() {
     return <div className="income-bar">
-      {this.incomeElements()}
-      {this.expenseElements()}
+      <div className="income-elements" style={{width: this.width(this.props.totalIncome, this.props.totalExpense)}}>
+        {this.incomeElements()}
+      </div>
+      <div className="expense-elements" style={{width: this.width(this.props.totalExpense, this.props.totalIncome)}}>
+        {this.expenseElements()}
+      </div>
     </div>
   }
 }
