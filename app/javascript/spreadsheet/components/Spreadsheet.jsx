@@ -337,6 +337,8 @@ export default class Spreadsheet extends Component {
               name={this.state.name}
               amount={this.state.amount}
               category={this.state.category}
+              currency={this.state.currency}
+
               onEdit={this.onEdit}
               onDelete={this.onDelete} />
           </div>

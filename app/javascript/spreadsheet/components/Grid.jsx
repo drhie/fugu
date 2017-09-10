@@ -19,6 +19,7 @@ export default class Grid extends React.Component {
                 items={this.props.items}
                 name={this.props.name}
                 amount={this.props.amount}
+                currency={this.props.currency}
                 category={this.props.category}
                 onEdit={this.props.onEdit}
                 onDelete={this.props.onDelete} />
