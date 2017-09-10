@@ -24,7 +24,8 @@ export default class Column extends React.Component {
     return (
       <Item item={item}
         className={evenOdd}
-        onEdit={this.props.onEdit} />
+        onEdit={this.props.onEdit}
+        onDelete={this.props.onDelete} />
     )
   }
 

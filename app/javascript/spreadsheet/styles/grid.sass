@@ -2,6 +2,12 @@
   width: 100%
   overflow: auto
   border: 1px solid gray
+  position: relative
+  .delete
+    position: absolute
+    top: 0
+    right: 0
+    display: none
   p
     margin: 0px
   .item-name
@@ -14,6 +20,10 @@
   opacity: 0.8
   border: 1px solid yellow
   cursor: pointer
+  .delete
+    display: inline-block
+  .delete:hover
+    color: red
 
 .odd-row
   background: linear-gradient(90deg, ghostwhite, darkgray)

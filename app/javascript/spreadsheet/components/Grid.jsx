@@ -20,7 +20,9 @@ export default class Grid extends React.Component {
                 name={this.props.name}
                 amount={this.props.amount}
                 category={this.props.category}
-                onEdit={this.props.onEdit} />
+                onEdit={this.props.onEdit}
+                onDelete={this.props.onDelete} />
+
             </div>
           }.bind(this)) }
         </div>

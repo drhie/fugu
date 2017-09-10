@@ -41,6 +41,7 @@ export default class Spreadsheet extends Component {
     this.closeInputScreen = this.closeInputScreen.bind(this);
     this.onEdit = this.onEdit.bind(this);
     this.onNew = this.onNew.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
 
   componentDidMount() {
@@ -264,6 +265,23 @@ export default class Spreadsheet extends Component {
     }
   }
 
+  onDelete(item) {
+    let items = this.state.items;
+    console.log("Deleting", item)
+    $.ajax({
+      url: "/items/" + item["id"],
+      type: "DELETE",
+    }).success(()=>{
+      for (var i = 0; i < items.length; i++) {
+        if (items[i]["id"] === item["id"]) {
+          var index = items.indexOf(items[i]);
+          items.splice(index, 1);
+        }
+      }
+      this.setState({items, items}, this.update())
+    });
+  }
+
   onEdit(item) {
     console.log(item["id"], item["name"], item["amount"], item["category"], "from Spreadsheet");
     if (item["category"].toLowerCase() === "income") {
@@ -322,7 +340,8 @@ export default class Spreadsheet extends Component {
               name={this.state.name}
               amount={this.state.amount}
               category={this.state.category}
-              onEdit={this.onEdit} />
+              onEdit={this.onEdit}
+              onDelete={this.onDelete} />
           </div>
         </div>
       </div>
