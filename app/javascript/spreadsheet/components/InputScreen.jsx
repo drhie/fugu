@@ -25,6 +25,10 @@ export default class InputScreen extends React.Component {
     this.props.closeOnSubmit();
   }
 
+  showHeading() {
+    return this.props.item ? "Edit " + this.props.title : "Add " + this.props.title;
+  }
+
   render() {
     var name = this.props.name;
     var amount = this.props.amount;
@@ -80,7 +84,7 @@ export default class InputScreen extends React.Component {
     if (this.props.revealInput) {
       return (
         <div id="input-modal">
-          <h2>Add {this.props.title}</h2>
+          <h2>{this.showHeading()}</h2>
           <form onSubmit={this.handleSubmit} id={this.props.title.toLowerCase()}>
             { formElements }
             <input type="submit" id="submit-button" value="Submit" />
