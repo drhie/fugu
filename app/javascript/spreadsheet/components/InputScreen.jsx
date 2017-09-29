@@ -34,25 +34,14 @@ export default class InputScreen extends React.Component {
     var amount = this.props.amount;
     var category = this.props.category;
 
-    var nameForm;
-    if (this.props.title === "Category") {
-      nameForm = <div className="name-form" id="category">
-        <label>Name:</label>
-        <input type="text"
-          name="name"
-          id="name"
-          onChange={this.handleChange} />
-      </div>
-    } else {
-      nameForm = <div className="name-form">
-        <label>Name:</label>
-        <input type="text"
-          id="name"
-          name="name"
-          value={name}
-          onChange={this.handleChange} />
-      </div>
-    }
+    var nameForm = <div className="name-form" id={this.props.title === "Category" ? "category" : null}>
+      <label>Name:</label>
+      <input type="text"
+        id="name"
+        name="name"
+        value={name}
+        onChange={this.handleChange} />
+    </div>
 
     var amountForm = <div className="amount-form">
       <label>Amount:</label>

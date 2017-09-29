@@ -7,8 +7,10 @@
   <%= link_to "Create a Spreadsheet", new_spreadsheet_path %>
   <% if @spreadsheets.length > 0 %>
     <h4>Edit Spreadsheets</h4>
-    <% @spreadsheets.each do |s| %>
-      <%= link_to "Edit #{s.name}", spreadsheet_path(s), method: :get %>
+      <% @spreadsheets.each do |s| %>
+      <div>
+        <%= link_to "Edit #{s.name}", spreadsheet_path(s), method: :get %>
+      </div>
     <% end %>
   <% end %>
 </div>

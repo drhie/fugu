@@ -5,13 +5,26 @@ import Control from './Control';
 import IncomeBar from './IncomeBar';
 import InputScreen from './InputScreen';
 
-var lastItem = function(spreadsheetID) {
+var ajaxPromise = function(spreadsheetID) {
   return $.ajax({
     url: spreadsheetID + "/last_item",
     dataType: "JSON",
     type: "GET"
-  })
+  });
 }
+
+var retrieveNewItem = function(ajaxData, itemData) {
+  return $.ajax({
+    url: ajaxData["url"],
+    type: ajaxData["type"],
+    dataType: 'json',
+    data: itemData
+  });
+}
+
+var getNewItem = function(data) {
+  return data
+};
 
 export default class Spreadsheet extends Component {
   constructor(props) {
@@ -39,9 +52,10 @@ export default class Spreadsheet extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputSubmit = this.handleInputSubmit.bind(this);
     this.closeInputScreen = this.closeInputScreen.bind(this);
-    this.onEdit = this.onEdit.bind(this);
     this.onNew = this.onNew.bind(this);
+    this.onEdit = this.onEdit.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.generateControlPanel = this.generateControlPanel.bind(this);
   }
 
   componentDidMount() {
@@ -73,18 +87,20 @@ export default class Spreadsheet extends Component {
     var items = this.props.items;
     var expenses = {};
     var income = [];
+    var categories = [];
     var expenseItems = items.forEach(function(item) {
       if (item.is_expense) {
         if (expenses.hasOwnProperty(item["item_type"])) {
           expenses[item["item_type"]].push({id: item["id"], name: item["name"], amount: item["amount"], category: item["item_type"]});
         } else {
           expenses[item["item_type"]] = [{id: item["id"], name: item["name"], amount: item["amount"], category: item["item_type"]}];
+          categories.push(item["item_type"]);
         }
       } else {
         income.push({id: item["id"], name: item["name"], amount: item["amount"], category: "income"});
       }
     })
-    this.setState({expenses: expenses, income: income});
+    this.setState({expenses: expenses, income: income, categories: categories});
   }
 
   closeInputScreen() {
@@ -117,13 +133,15 @@ export default class Spreadsheet extends Component {
     var totalExpense = this.state.totalExpense;
     var totalBalance = this.state.totalBalance;
     var items = this.state.items;
-
-    let ajaxUrl = this.state.itemToEdit ? "/items/" + this.state.itemToEdit : "/items";
-    let ajaxType = this.state.itemToEdit ? "PATCH" : "POST";
-    var getLastItem = lastItem(this.props.info["id"]);
     let itemToEdit = this.state.itemToEdit;
+    var newItem;
+    let ajaxData = {
+      url: itemToEdit ? "/items/" + itemToEdit : "/items",
+      type: itemToEdit ? "PATCH" : "POST"
+    }
+    var spreadsheetID = this.props.info["id"];
+    let itemData;
 
-    let data;
     name = inputValues["name"];
     if (type === "category") {
       categories.push(name);
@@ -136,50 +154,38 @@ export default class Spreadsheet extends Component {
       amount = parseInt(inputValues["amount"]);
       if (type === "expense") {
         category = inputValues["category"];
-        data = {
+        itemData = {
           item: {
             name: name,
             amount: amount,
             item_type: category,
             is_expense: true,
-            spreadsheet_id: this.props.info["id"]
+            spreadsheet_id: spreadsheetID
           }
         }
       } else if (type === "income") {
-        data = {
+        itemData = {
           item: {
             name: name,
             amount: amount,
             item_type: "income",
             is_expense: false,
-            spreadsheet_id: this.props.info["id"]
+            spreadsheet_id: spreadsheetID
           }
         }
       }
-      $.ajax({
-        url: ajaxUrl,
-        type: ajaxType,
-        dataType: 'json',
-        data: data
-      }).success((data)=>{
-        if (ajaxType === "POST") {
+      var ajaxItems = retrieveNewItem(ajaxData, itemData).done(function(response) {
+        if (ajaxData["type"] === "POST") {
+          //BIG ISSUES WITH THIS ONE
           var newItem;
-          getLastItem.success(function(data) {
-            newItem = data;
+          $.ajax({
+            url: spreadsheetID + "/last_item",
+            dataType: "JSON",
+            type: "GET"
+          }).done(function(data) {
+            newItem = getNewItem(data)
           });
-          items.push({
-            id: newItem["id"],
-            name: name,
-            amount: amount,
-            item_type: type === "expense" ? newItem["item_type"] : "income",
-            is_expense: type=== "expense" ? true : false,
-            spreadsheet_id: this.props.info["id"]
-          });
-          this.setState(
-            {items: items},
-            function() {this.update()}
-          );
-        } else if (ajaxType === "PATCH") {
+        } else if (ajaxData["type"] === "PATCH") {
           items.forEach(function(item) {
             if (item.id === itemToEdit) {
               item["name"] = inputValues["name"];
@@ -187,14 +193,16 @@ export default class Spreadsheet extends Component {
               item["item_type"] = inputValues["category"] || "income";
             }
           });
-          this.setState(
-            {items: items},
-            function() {this.update()}
-          );
         }
+        debugger;
       });
+      debugger;
+      console.log(ajaxItems);
+    };
+  }
 
-    }
+  newItem() {
+
   }
 
   setInputType(i) {
@@ -249,10 +257,12 @@ export default class Spreadsheet extends Component {
         <div className="panel-bar">
           <Control
             inputType={()=>this.setInputType("Income")}
-            title="Income" />
+            title="Income"
+            onNew={this.onNew} />
           <Control
             inputType={()=>this.setInputType("Category")}
-            title="Category" />
+            title="Category"
+            onNew={this.onNew} />
         </div>
       )
     }
@@ -297,8 +307,9 @@ export default class Spreadsheet extends Component {
     return (
       <div id="shell">
         <h2 className="spreadsheet-title">{this.props.info["title"]}</h2>
-        <div className="border">
+        <div>
           <IncomeBar
+            currency={this.state.currency}
             income={this.state.income}
             totalIncome={this.state.totalIncome}
             totalExpense={this.state.totalExpense}

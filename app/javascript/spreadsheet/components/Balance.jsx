@@ -7,7 +7,7 @@ function formatInteger(currency, integer) {
     "USD": "$"
   };
   var amount = currencies[currency] + Math.abs(integer).toLocaleString(undefined, {minimumFractionDigits: 0});
-  return integer > 0 ? amount : "-" + amount;
+  return integer >= 0 ? amount : "-" + amount;
 }
 
 export default class Balance extends React.Component {

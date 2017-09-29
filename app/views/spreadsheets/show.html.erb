@@ -16,4 +16,4 @@
 }.to_json do %>
 <% end %>
 <%= link_to "Home", root_url %> |
-<%= link_to "Delete", @spreadsheet, method: :delete, data: {confirm: "Are you sure?"} %>
+<%= link_to "Delete Spreadsheet", @spreadsheet, method: :delete, data: {confirm: "This action will erase all data from this spreadsheet, and is irreversible. Are you sure?"} %>

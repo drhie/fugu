@@ -22,7 +22,14 @@ export default class IncomeBar extends React.Component {
     var colors = ["royalblue", "seagreen", "darkorange", "mediumpurple", "chocolate"]
     var income = this.props.income;
     var elements = income.map((i, n)=> {
-      return <Income bgColor={colors[n]} width={i["amount"]/total(income)*100 + "%"} item={i} onEdit={this.props.onEdit} onDelete={this.props.onDelete} />
+      return (
+        <Income bgColor={colors[n]}
+          width={i["amount"]/total(income)*100 + "%"}
+          currency={this.props.currency}
+          item={i}
+          onEdit={this.props.onEdit}
+          onDelete={this.props.onDelete} />
+      )
     })
     return elements
   }

@@ -1,7 +1,8 @@
 .item-box
   width: 100%
-  overflow: auto
-  border: 1px solid gray
+  // overflow: auto
+  border-left: 1px solid gray
+  border-bottom: 1px solid gray
   position: relative
   p
     margin: 0px
@@ -12,19 +13,14 @@
     text-align: right
     width: 100%
 .item-box:hover
+  background: linear-gradient(90deg, darkgray, ghostwhite)
   opacity: 0.8
-  border: 1px solid yellow
   cursor: pointer
   .delete
     display: inline-block
-  .delete:hover
-    color: red
 
-.odd-row
-  background: linear-gradient(90deg, ghostwhite, darkgray)
-.even-row
-  background: linear-gradient(90deg, gray, lightgray)
-
+// .odd-row:hover
+// .even-row:hover
 
 .column
   margin: 0 5px
@@ -36,6 +32,16 @@
 
 .delete
   position: absolute
-  top: 0
-  right: 0
+  top: 2px
+  right: 2px
   display: none
+  background: gray
+  width: 16px
+  height: 16px
+  border-radius: 20px
+  text-align: center
+  font-size: 0.75em
+.delete:hover
+  background: crimson
+  color: white
+  font-family: "Trebuchet MS", Helvetica, sans-serif
