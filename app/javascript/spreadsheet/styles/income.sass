@@ -17,7 +17,15 @@
   .delete
     z-index: 4
     display: inline-block
-
-.expense-bar-part
-  background: crimson
+.expense-elements
+  position: relative
   height: 15px
+  .expense-bar-part
+    height: 15px
+    position: absolute
+    top: 0
+    left: 0
+    .expense-bar-piece
+      display: inline-block
+      // position: absolute
+      height: 16px

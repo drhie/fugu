@@ -212,7 +212,7 @@ export default class Spreadsheet extends Component {
     var categories = this.state.categories
     if (!categories.includes(name)) {
       categories.push(name)
-      this.setState({ categories: categories })      
+      this.setState({ categories: categories })
     }
   }
 
@@ -323,6 +323,7 @@ export default class Spreadsheet extends Component {
           <IncomeBar
             currency={this.state.currency}
             income={this.state.income}
+            expenses={this.state.expenses}
             totalIncome={this.state.totalIncome}
             totalExpense={this.state.totalExpense}
             item={this.state.itemToEdit}

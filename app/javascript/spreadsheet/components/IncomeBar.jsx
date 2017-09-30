@@ -1,5 +1,6 @@
 import React from 'react';
 import Income from "./Income"
+import Expense from "./Expense"
 
 function total(income) {
   var total = 0;
@@ -37,8 +38,36 @@ export default class IncomeBar extends React.Component {
   expenseElements() {
     var widthAmount = this.props.totalExpense > this.props.totalIncome ? "100%" : (this.props.totalExpense/(total(this.props.income))*100) + "%";
     if (this.props.totalExpense > 0) {
-      return <div className="expense-bar-part" style={{width: widthAmount}}></div>
+      return <div className="expense-bar-part" style={{width: "100%"}}>{this.renderExpenseBars(this.expenseBars(this.props.expenses))}</div>
     }
+  }
+
+  expenseBars(expenses) {
+    var colors = ["crimson", "maroon"]
+    var elements = []
+    var colorTracker = 0;
+    for (var key in expenses) {
+      var total = 0;
+      var color = colorTracker % 2 === 0 ? colors[0] : colors[1];
+      expenses[key].forEach(function(e) {
+        total += e.amount;
+      });
+      colorTracker ++
+      elements.push({ color: color, width: total/this.props.totalExpense*100 + "%", name: key, total: total });
+    }
+    return elements
+  }
+
+  renderExpenseBars(hashData) {
+    var elements = hashData.map((e)=> {
+      return (
+        <Expense bgColor={e.color}
+          width={e.width}
+          name={e.name}
+          total={e.total} />
+      )
+    });
+    return elements;
   }
 
   width(subject, object) {
