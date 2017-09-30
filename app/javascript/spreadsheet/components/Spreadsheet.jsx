@@ -162,8 +162,8 @@ export default class Spreadsheet extends Component {
           name: inputValues["name"],
           amount: inputValues["amount"],
           is_expense: isExpense,
-          spreadsheet_id: this.props.info["id"],
         },
+        spreadsheet_id: this.props.info["id"],
         category: inputValues["category"]
       },
     }).then((data)=> {
@@ -204,14 +204,16 @@ export default class Spreadsheet extends Component {
       data: {
         category: {
           name: name,
-          spreadsheet_id: this.props.info["id"]
-        }
+        },
+        spreadsheet_id: this.props.info["id"]
       }
     })
     //FRONTEND
     var categories = this.state.categories
-    categories.push(name)
-    this.setState({ categories: categories })
+    if (!categories.includes(name)) {
+      categories.push(name)
+      this.setState({ categories: categories })      
+    }
   }
 
   setInputType(i) {

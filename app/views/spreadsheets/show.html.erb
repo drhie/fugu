@@ -1,19 +1,26 @@
-<%= content_tag :div,
-  id: "root",
-  data: {
-    categories: @spreadsheet.get_categories,
-    income: @spreadsheet.get_income,
-    expenses: @spreadsheet.get_expenses,
-    items: @spreadsheet.items,
-    totalIncome: @spreadsheet.calculate_balance[:income],
-    totalExpense: @spreadsheet.calculate_balance[:expense],
-    balance: @spreadsheet.calculate_balance[:total],
-    info: {
-      id: @spreadsheet.id,
-      title: @spreadsheet.name,
-      currency: @spreadsheet.currency
-    }
-}.to_json do %>
-<% end %>
-<%= link_to "Home", root_url %> |
-<%= link_to "Delete Spreadsheet", @spreadsheet, method: :delete, data: {confirm: "This action will erase all data from this spreadsheet, and is irreversible. Are you sure?"} %>
+<div id="rails-shell">
+  <%= content_tag :div,
+    id: "root",
+    data: {
+      categories: @spreadsheet.get_categories,
+      income: @spreadsheet.get_income,
+      expenses: @spreadsheet.get_expenses,
+      items: @spreadsheet.items,
+      totalIncome: @spreadsheet.calculate_balance[:income],
+      totalExpense: @spreadsheet.calculate_balance[:expense],
+      balance: @spreadsheet.calculate_balance[:total],
+      info: {
+        id: @spreadsheet.id,
+        title: @spreadsheet.name,
+        currency: @spreadsheet.currency
+      }
+  }.to_json do %>
+  <% end %>
+  <% @spreadsheets.each do |f| %>
+    <%= link_to spreadsheet_path(f.id), method: :get do %>
+      <div class="<%= f.id === @spreadsheet.id ? 'spreadsheet-tab active-tab' : 'spreadsheet-tab' %>">
+        <%= f.name %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

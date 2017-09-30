@@ -6,21 +6,25 @@ class SpreadsheetsController < ApplicationController
 
   def new
     @spreadsheet = Spreadsheet.new
+    @categories = Category.where(user_id: current_user.id)
   end
 
   def create
     @spreadsheet = Spreadsheet.new(spreadsheet_params)
+    binding.pry
     @spreadsheet.user_id = current_user.id if current_user
     if @spreadsheet.save
-      @category = Category.new(name: "income", spreadsheet_id: @spreadsheet.id)
-      @category.user_id = current_user.id if current_user
-      @category.save
+      @spreadsheet.categories << current_user.categories.find_by(name: "income")
       redirect_to spreadsheet_path(@spreadsheet)
+    else
+      flash.now[:error] = "Missing name and/or currency"
+      render :new
     end
   end
 
   def show
     @spreadsheet = Spreadsheet.find(params[:id])
+    @spreadsheets = Spreadsheet.where(user_id: current_user.id)
   end
 
   def edit

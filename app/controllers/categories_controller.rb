@@ -6,9 +6,20 @@ class CategoriesController < ApplicationController
   end
 
   def create
-    @category = Category.new(category_params)
-    @category.user_id = current_user.id if current_user
-    @category.save
+    #Prevent a user from having duplicate categories
+    if current_user.categories.where(name: category_params[:name]).length > 0
+      @category = Category.find_by(name: category_params[:name])
+    else
+      @category = Category.new(category_params)
+      @category.user_id = current_user.id if current_user
+      @category.save
+    end
+
+    #Prevent a spreadsheet from having duplicate categories
+    @spreadsheet = Spreadsheet.find(params[:spreadsheet_id])
+    if @spreadsheet.categories.exclude?(@category)
+      @spreadsheet.categories << @category
+    end
   end
 
   def show
@@ -17,6 +28,6 @@ class CategoriesController < ApplicationController
 
   private
   def category_params
-    params.require(:category).permit(:name.downcase, :spreadsheet_id)
+    params.require(:category).permit(:name.downcase)
   end
 end

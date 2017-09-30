@@ -14,16 +14,25 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
     <div class="navbar">
-      <% if current_user %>
-        <%= link_to "Log out", destroy_user_session_path %>
-      <% else %>
-        <%= link_to "Sign in", new_user_session_path %>
-        <%= link_to "Register", new_user_registration_path %>
+      <% if params[:action] == "show" %>
+        <div class="left-panel">
+          <%= link_to "Home", root_url %> |
+          <%= link_to "New Spreadsheet", new_spreadsheet_path %> |
+          <%= link_to "Delete Spreadsheet", @spreadsheet, method: :delete, data: {confirm: "This action will erase all data from this spreadsheet, and is irreversible. Are you sure?"} %>
+        </div>
       <% end %>
+      <div class="right-panel">
+        <% if current_user %>
+          <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+        <% else %>
+          <%= link_to "Sign in", new_user_session_path %>
+          <%= link_to "Register", new_user_registration_path %>
+        <% end %>
+      </div>
     </div>
+    <p class="notice"><%= flash[:notice] %></p>
+    <p class="error"><%= flash[:error] %></p>
     <%= yield %>
   </body>
 </html>
