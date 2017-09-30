@@ -26,7 +26,9 @@ export default class InputScreen extends React.Component {
   }
 
   showHeading() {
-    return this.props.item ? "Edit " + this.props.title : "Add " + this.props.title;
+    var title = this.props.title
+    title = title[0].toUpperCase() + title.slice(1).toLowerCase()
+    return this.props.item ? "Edit " + title : "Add " + title;
   }
 
   render() {
@@ -34,7 +36,7 @@ export default class InputScreen extends React.Component {
     var amount = this.props.amount;
     var category = this.props.category;
 
-    var nameForm = <div className="name-form" id={this.props.title === "Category" ? "category" : null}>
+    var nameForm = <div className="name-form" id={this.props.title === "category" ? "category" : null}>
       <label>Name:</label>
       <input type="text"
         id="name"
@@ -55,20 +57,22 @@ export default class InputScreen extends React.Component {
     var categoryForm = <div className="category-form">
       <label>Category:</label>
       { this.props.categories.map((e)=> {
-        return <div>
-          <label>
-            <input type="radio" name="category" value={e} onChange={this.handleChange} checked={e === category} />
-            {e}
-          </label>
-        </div>
+        if (e != "income") {
+          return <div>
+            <label>
+              <input type="radio" name="category" value={e} onChange={this.handleChange} checked={e === category} />
+              {e[0].toUpperCase() + e.slice(1).toLowerCase()}
+            </label>
+          </div>
+        }
       }) }
     </div>
 
     var formElements;
 
-    if (this.props.title === "Expense") {
+    if (this.props.title === "expense") {
       formElements = <div><div className="form-top-half">{nameForm}{amountForm}</div>{categoryForm}</div>
-    } else if (this.props.title === "Income") {
+    } else if (this.props.title === "income") {
       formElements = <div className="form-top-half">{nameForm}{amountForm}</div>
     } else {
       formElements = <div>{nameForm}</div>
@@ -77,7 +81,7 @@ export default class InputScreen extends React.Component {
       return (
         <div id="input-modal">
           <h2>{this.showHeading()}</h2>
-          <form onSubmit={this.handleSubmit} id={this.props.title.toLowerCase()}>
+          <form onSubmit={this.handleSubmit} id={this.props.title}>
             { formElements }
             <input type="submit" id="submit-button" value="Submit" />
           </form>

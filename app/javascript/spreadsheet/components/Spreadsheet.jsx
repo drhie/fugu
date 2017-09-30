@@ -87,14 +87,34 @@ export default class Spreadsheet extends Component {
     var items = this.props.items;
     var expenses = {};
     var income = [];
-    var expenseItems = items.forEach(function(item) {
-      if (item.is_expense) {
-        expenses[item["item_type"]].push({id: item["id"], name: item["name"], amount: item["amount"], category: item["item_type"]});
-      } else {
-        income.push({id: item["id"], name: item["name"], amount: item["amount"], category: "income"});
-      }
-    })
-    this.setState({expenses: expenses, income: income});
+    var category_index;
+    $.ajax({
+      url: "/categories",
+      type: "GET",
+      dataType: "JSON"
+    }).done(function(data) {
+      category_index = data;
+      var expenseItems = items.forEach(function(item) {
+        if (typeof item["category_id"] === "string") {
+          for (var key in category_index) {
+            if (item["category_id"] === category_index[key]) {
+              item["category_id"] = key;
+            }
+          }
+        }
+        var category = category_index[item["category_id"]]
+        if (item.is_expense) {
+          if (expenses.hasOwnProperty(category)) {
+            expenses[category].push({id: item["id"], name: item["name"], amount: item["amount"], category: category});
+          } else {
+            expenses[category] = [{id: item["id"], name: item["name"], amount: item["amount"], category: category}];
+          }
+        } else {
+          income.push({id: item["id"], name: item["name"], amount: item["amount"], category: category});
+        }
+      });
+      this.setState({expenses: expenses, income: income});
+    }.bind(this));
   }
 
   closeInputScreen() {
@@ -120,15 +140,19 @@ export default class Spreadsheet extends Component {
     if (this.state.inputType.toLowerCase() === "income") {
       var existingItem = this.state.itemToEdit ? this.state.itemToEdit : false;
       inputValues["category"] = "income";
-      this.registerIncome(inputValues, existingItem);
+      this.registerItem(inputValues, existingItem);
     } else if (this.state.inputType.toLowerCase() === "category") {
       this.registerCategory(inputValues["name"].toLowerCase());
+    } else if (this.state.inputType.toLowerCase() === "expense") {
+      var existingItem = this.state.itemToEdit ? this.state.itemToEdit : false;
+      this.registerItem(inputValues, existingItem);
     }
   }
 
-  registerIncome(inputValues, existingItem) {
+  registerItem(inputValues, existingItem) {
     var url = existingItem ? "/items/" + existingItem : "/items";
     var method = existingItem ? "PATCH" : "POST";
+    var isExpense = inputValues["category"] === "income" ? false : true;
     $.ajax({
       url: url,
       type: method,
@@ -137,12 +161,12 @@ export default class Spreadsheet extends Component {
         item: {
           name: inputValues["name"],
           amount: inputValues["amount"],
-          is_expense: false,
+          is_expense: isExpense,
           spreadsheet_id: this.props.info["id"],
         },
         category: inputValues["category"]
       },
-    }).then((data, inputValues)=> {
+    }).then((data)=> {
       if (method === "POST") {
         $.ajax({
           url: this.props.info["id"] + "/last_item",
@@ -150,7 +174,7 @@ export default class Spreadsheet extends Component {
           type: "GET",
         }).then(function(item) {
           var items = this.state.items;
-          items.push({id: item["id"], name: item["name"], amount: item["amount"], category: "income"});
+          items.push(item);
           //Always set items and then update. Don't manipulate income and expense states.
           this.setState({ items: items }, this.update());
         }.bind(this));
@@ -163,6 +187,7 @@ export default class Spreadsheet extends Component {
         if (e.id === existingItem) {
           e["name"] = inputValues["name"];
           e["amount"] = parseInt(inputValues["amount"]);
+          if (inputValues["category"]) e["category_id"] = inputValues["category"]
         }
       });
       //Always set items and then update. Don't manipulate income and expense states.
@@ -187,10 +212,6 @@ export default class Spreadsheet extends Component {
     var categories = this.state.categories
     categories.push(name)
     this.setState({ categories: categories })
-  }
-
-  newItem() {
-
   }
 
   setInputType(i) {
@@ -223,20 +244,20 @@ export default class Spreadsheet extends Component {
   }
 
   generateControlPanel() {
-    if (this.state.categories.length === 1) {
+    if (this.state.categories.length > 1) {
       return (
         <div className="panel-bar">
           <Control
-            inputType={()=>this.setInputType("Expense")}
-            title="Expense"
+            inputType={()=>this.setInputType("expense")}
+            title="expense"
             onNew={this.onNew} />
           <Control
-            inputType={()=>this.setInputType("Income")}
-            title="Income"
+            inputType={()=>this.setInputType("income")}
+            title="income"
             onNew={this.onNew} />
           <Control
-            inputType={()=>this.setInputType("Category")}
-            title="Category"
+            inputType={()=>this.setInputType("category")}
+            title="category"
             onNew={this.onNew} />
         </div>
       )
@@ -244,12 +265,12 @@ export default class Spreadsheet extends Component {
       return (
         <div className="panel-bar">
           <Control
-            inputType={()=>this.setInputType("Income")}
-            title="Income"
+            inputType={()=>this.setInputType("income")}
+            title="income"
             onNew={this.onNew} />
           <Control
-            inputType={()=>this.setInputType("Category")}
-            title="Category"
+            inputType={()=>this.setInputType("category")}
+            title="category"
             onNew={this.onNew} />
         </div>
       )
@@ -276,10 +297,10 @@ export default class Spreadsheet extends Component {
 
   onEdit(item) {
     console.log(item["id"], item["name"], item["amount"], item["category"], "from Spreadsheet");
-    if (item["category"].toLowerCase() === "income") {
-      this.setState({inputType: "Income", inputScreen: true, itemToEdit: item["id"], name: item["name"], amount: item["amount"]});
+    if (item["category"] === "income") {
+      this.setState({inputType: "income", inputScreen: true, itemToEdit: item["id"], name: item["name"], amount: item["amount"]});
     } else {
-      this.setState({inputType: "Expense", inputScreen: true, itemToEdit: item["id"], name: item["name"], amount: item["amount"], category: item["category"]});
+      this.setState({inputType: "expense", inputScreen: true, itemToEdit: item["id"], name: item["name"], amount: item["amount"], category: item["category"]});
     }
   }
 

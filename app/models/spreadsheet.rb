@@ -25,7 +25,7 @@ class Spreadsheet < ApplicationRecord
   end
 
   def set_category(category_name)
-    self.categories.where(name: category_name).first.id
+    self.categories.where(name: category_name.downcase).first.id
   end
 
   def get_income

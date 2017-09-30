@@ -17,6 +17,7 @@ class ItemsController < ApplicationController
 
   def update
     @item = Item.find(params[:id])
+    @item.category_id = Spreadsheet.find(@item.spreadsheet_id).set_category(params[:category])
     @item.update_attributes(item_params)
   end
 
