@@ -118,17 +118,20 @@ export default class Spreadsheet extends Component {
       category: e.target.category ? e.target.category.value : undefined
     }
     if (this.state.inputType.toLowerCase() === "income") {
+      var existingItem = this.state.itemToEdit ? this.state.itemToEdit : false;
       inputValues["category"] = "income";
-      this.registerIncome(inputValues);
+      this.registerIncome(inputValues, existingItem);
     } else if (this.state.inputType.toLowerCase() === "category") {
       this.registerCategory(inputValues["name"].toLowerCase());
     }
   }
 
-  registerIncome(inputValues) {
+  registerIncome(inputValues, existingItem) {
+    var url = existingItem ? "/items/" + existingItem : "/items";
+    var method = existingItem ? "PATCH" : "POST";
     $.ajax({
-      url: "/items",
-      type: "POST",
+      url: url,
+      type: method,
       dataType: "JSON",
       data: {
         item: {
@@ -139,18 +142,32 @@ export default class Spreadsheet extends Component {
         },
         category: inputValues["category"]
       },
-      id: this.props.info["id"],
-    }).then(function(data) {
-      $.ajax({
-        url: this.props.info["id"] + "/last_item",
-        dataType: "JSON",
-        type: "GET",
-      }).then(function(item) {
-        var income = this.state.income;
-        income.push({id: item["id"], name: item["name"], amount: item["amount"], category: "income"});
-        this.setState({ income: income });
-      }.bind(this));
-    }.bind(this));
+    }).then((data, inputValues)=> {
+      if (method === "POST") {
+        $.ajax({
+          url: this.props.info["id"] + "/last_item",
+          dataType: "JSON",
+          type: "GET",
+        }).then(function(item) {
+          var items = this.state.items;
+          items.push({id: item["id"], name: item["name"], amount: item["amount"], category: "income"});
+          //Always set items and then update. Don't manipulate income and expense states.
+          this.setState({ items: items }, this.update());
+        }.bind(this));
+      }
+    });
+
+    if (method === "PATCH") {
+      var items = this.state.items;
+      items.forEach((e) => {
+        if (e.id === existingItem) {
+          e["name"] = inputValues["name"];
+          e["amount"] = parseInt(inputValues["amount"]);
+        }
+      });
+      //Always set items and then update. Don't manipulate income and expense states.
+      this.setState({ items: items, itemToEdit: null }, this.update());
+    }
   }
 
   registerCategory(name) {
@@ -252,6 +269,7 @@ export default class Spreadsheet extends Component {
           items.splice(index, 1);
         }
       }
+      //Always set items and then update. Don't manipulate income and expense states.
       this.setState({items, items}, this.update())
     });
   }
