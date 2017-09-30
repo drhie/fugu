@@ -24,7 +24,7 @@ class SpreadsheetsController < ApplicationController
 
   def show
     @spreadsheet = Spreadsheet.find(params[:id])
-    @spreadsheets = Spreadsheet.where(user_id: current_user.id)
+    @spreadsheets = Spreadsheet.where(user_id: current_user.id).order(created_at: :asc)
   end
 
   def edit

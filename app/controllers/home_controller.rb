@@ -1,7 +1,5 @@
 class HomeController < ApplicationController
   def index
-    @items = Item.all
-    @spreadsheets = Spreadsheet.all
-    @spreadsheet = Spreadsheet.first
+    @spreadsheets = Spreadsheet.where(user_id: current_user.id).order(created_at: :asc)
   end
 end
