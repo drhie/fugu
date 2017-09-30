@@ -10,7 +10,11 @@ class SpreadsheetsController < ApplicationController
 
   def create
     @spreadsheet = Spreadsheet.new(spreadsheet_params)
+    @spreadsheet.user_id = current_user.id if current_user
     if @spreadsheet.save
+      @category = Category.new(name: "income", spreadsheet_id: @spreadsheet.id)
+      @category.user_id = current_user.id if current_user
+      @category.save
       redirect_to spreadsheet_path(@spreadsheet)
     end
   end

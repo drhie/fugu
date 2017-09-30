@@ -1,6 +1,7 @@
 class Spreadsheet < ApplicationRecord
   belongs_to :user, optional: true
   has_many :items
+  has_many :categories
   validates_presence_of :name, :currency
 
   def calculate_balance
@@ -13,41 +14,25 @@ class Spreadsheet < ApplicationRecord
     balance
   end
 
-  def calculate_item_type(item_type)
+  def calculate_item_type(category_number)
     total = 0
-    self.items.each { |i| total += i.amount if i.item_type == item_type }
+    self.items.each { |i| total += i.amount if i.category_id == category_number }
     total
   end
 
   def get_categories
-    categories = []
-    self.items.each do |i|
-      unless i.item_type.downcase == "income"
-        categories << i.item_type unless categories.include?(i.item_type)
-      end
-    end
-    categories
+    self.categories.map { |i| i.name }
+  end
+
+  def set_category(category_name)
+    self.categories.where(name: category_name).first.id
   end
 
   def get_income
-    income = []
-    self.items.each do |i|
-      income << {id: i.id, name: i.name, amount: i.amount, category: i.item_type} unless i.is_expense
-    end
-    income
+    self.items.where(category_id: self.categories.where(name: "income").first.id)
   end
 
   def get_expenses
-    expenses = {}
-    self.items.each do |i|
-      if i.is_expense
-        if expenses.has_key?(i.item_type)
-          expenses[i.item_type] << {id: i.id, name: i.name, amount: i.amount, category: i.item_type}
-        else
-          expenses[i.item_type] = [{id: i.id, name: i.name, amount: i.amount, category: i.item_type}]
-        end
-      end
-    end
-    expenses
+    self.items.where.not(category_id: self.categories.where(name: "income").first.id)
   end
 end

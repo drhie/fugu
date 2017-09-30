@@ -87,20 +87,14 @@ export default class Spreadsheet extends Component {
     var items = this.props.items;
     var expenses = {};
     var income = [];
-    var categories = [];
     var expenseItems = items.forEach(function(item) {
       if (item.is_expense) {
-        if (expenses.hasOwnProperty(item["item_type"])) {
-          expenses[item["item_type"]].push({id: item["id"], name: item["name"], amount: item["amount"], category: item["item_type"]});
-        } else {
-          expenses[item["item_type"]] = [{id: item["id"], name: item["name"], amount: item["amount"], category: item["item_type"]}];
-          categories.push(item["item_type"]);
-        }
+        expenses[item["item_type"]].push({id: item["id"], name: item["name"], amount: item["amount"], category: item["item_type"]});
       } else {
         income.push({id: item["id"], name: item["name"], amount: item["amount"], category: "income"});
       }
     })
-    this.setState({expenses: expenses, income: income, categories: categories});
+    this.setState({expenses: expenses, income: income});
   }
 
   closeInputScreen() {
@@ -123,82 +117,59 @@ export default class Spreadsheet extends Component {
       amount: e.target.amount ? e.target.amount.value : undefined,
       category: e.target.category ? e.target.category.value : undefined
     }
-    var name, amount, category;
-
-    var type = this.state.inputType.toLowerCase();
-    var categories = this.state.categories;
-    var expenses = this.state.expenses;
-    var income = this.state.income;
-    var totalIncome = this.state.totalIncome;
-    var totalExpense = this.state.totalExpense;
-    var totalBalance = this.state.totalBalance;
-    var items = this.state.items;
-    let itemToEdit = this.state.itemToEdit;
-    var newItem;
-    let ajaxData = {
-      url: itemToEdit ? "/items/" + itemToEdit : "/items",
-      type: itemToEdit ? "PATCH" : "POST"
+    if (this.state.inputType.toLowerCase() === "income") {
+      inputValues["category"] = "income";
+      this.registerIncome(inputValues);
+    } else if (this.state.inputType.toLowerCase() === "category") {
+      this.registerCategory(inputValues["name"].toLowerCase());
     }
-    var spreadsheetID = this.props.info["id"];
-    let itemData;
+  }
 
-    name = inputValues["name"];
-    if (type === "category") {
-      categories.push(name);
-      expenses[name] = [];
-      this.setState({
-        categories: categories,
-        expenses: expenses
-      })
-    } else {
-      amount = parseInt(inputValues["amount"]);
-      if (type === "expense") {
-        category = inputValues["category"];
-        itemData = {
-          item: {
-            name: name,
-            amount: amount,
-            item_type: category,
-            is_expense: true,
-            spreadsheet_id: spreadsheetID
-          }
-        }
-      } else if (type === "income") {
-        itemData = {
-          item: {
-            name: name,
-            amount: amount,
-            item_type: "income",
-            is_expense: false,
-            spreadsheet_id: spreadsheetID
-          }
+  registerIncome(inputValues) {
+    $.ajax({
+      url: "/items",
+      type: "POST",
+      dataType: "JSON",
+      data: {
+        item: {
+          name: inputValues["name"],
+          amount: inputValues["amount"],
+          is_expense: false,
+          spreadsheet_id: this.props.info["id"],
+        },
+        category: inputValues["category"]
+      },
+      id: this.props.info["id"],
+    }).then(function(data) {
+      $.ajax({
+        url: this.props.info["id"] + "/last_item",
+        dataType: "JSON",
+        type: "GET",
+      }).then(function(item) {
+        var income = this.state.income;
+        income.push({id: item["id"], name: item["name"], amount: item["amount"], category: "income"});
+        this.setState({ income: income });
+      }.bind(this));
+    }.bind(this));
+  }
+
+  registerCategory(name) {
+    //BACKEND
+    $.ajax({
+      url: "/categories",
+      type: "POST",
+      dataType: "JSON",
+      data: {
+        category: {
+          name: name,
+          spreadsheet_id: this.props.info["id"]
         }
       }
-      var ajaxItems = retrieveNewItem(ajaxData, itemData).done(function(response) {
-        if (ajaxData["type"] === "POST") {
-          //BIG ISSUES WITH THIS ONE
-          var newItem;
-          $.ajax({
-            url: spreadsheetID + "/last_item",
-            dataType: "JSON",
-            type: "GET"
-          }).done(function(data) {
-            newItem = getNewItem(data)
-          });
-        } else if (ajaxData["type"] === "PATCH") {
-          items.forEach(function(item) {
-            if (item.id === itemToEdit) {
-              item["name"] = inputValues["name"];
-              item["amount"] = parseInt(inputValues["amount"]);
-              item["item_type"] = inputValues["category"] || "income";
-            }
-          });
-        }
-        debugger;
-      });
-      debugger;
-      console.log(ajaxItems);
-    };
+    })
+    //FRONTEND
+    var categories = this.state.categories
+    categories.push(name)
+    this.setState({ categories: categories })
   }
 
   newItem() {
@@ -235,7 +206,7 @@ export default class Spreadsheet extends Component {
   }
 
   generateControlPanel() {
-    if (this.state.categories && this.state.categories.length > 0) {
+    if (this.state.categories.length === 1) {
       return (
         <div className="panel-bar">
           <Control

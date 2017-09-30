@@ -6,6 +6,8 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(item_params)
+    @item.user_id = current_user.id if current_user
+    @item.category_id = Spreadsheet.find(@item.spreadsheet_id).set_category(params[:category])
     @item.save
   end
 
@@ -25,6 +27,6 @@ class ItemsController < ApplicationController
 
   private
   def item_params
-    params.require(:item).permit(:name, :amount, :is_expense, :item_type, :spreadsheet_id)
+    params.require(:item).permit(:name, :amount, :is_expense, :spreadsheet_id)
   end
 end
