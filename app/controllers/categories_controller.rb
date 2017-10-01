@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
   def index
     @index = {}
-    Category.all.map { |e| @index[e.id] = e.name  if e.user_id == current_user.id }
+    current_user.categories.map { |e| @index[e.id] = e.name }
     render json: @index
   end
 

@@ -25,7 +25,7 @@ class Spreadsheet < ApplicationRecord
   end
 
   def set_category(category_name)
-    self.categories.where(name: category_name.downcase).first.id
+    self.categories.where(name: category_name.downcase, user_id: self.user_id).first.id
   end
 
   def get_income
@@ -38,7 +38,7 @@ class Spreadsheet < ApplicationRecord
 
   def load_default_categories(categories)
     categories.each do |category|
-      default_category = Category.find_by(name: category)
+      default_category = Category.where(name: category, user_id: self.user_id)
       self.categories << default_category
     end
   end
