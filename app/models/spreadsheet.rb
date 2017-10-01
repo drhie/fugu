@@ -44,6 +44,5 @@ class Spreadsheet < ApplicationRecord
   end
 
   def load_default_income(income)
-    binding.pry
   end
 end
