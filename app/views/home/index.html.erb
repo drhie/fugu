@@ -7,10 +7,11 @@
   <div id="selection-section">
     <%= link_to "Create a Spreadsheet", new_spreadsheet_path %>
     <% if @spreadsheets.length > 0 %>
-      <h4>Edit Spreadsheets</h4>
+      <h4>Your Spreadsheets</h4>
         <% @spreadsheets.each do |s| %>
         <div>
-          <%= link_to "Edit #{s.name}", spreadsheet_path(s), method: :get %>
+          <%= link_to "Edit #{s.name}", spreadsheet_path(s), method: :get %> |
+          <%= link_to "Delete", s, method: :delete, data: {confirm: "Are you sure?"} %>
         </div>
       <% end %>
     <% end %>

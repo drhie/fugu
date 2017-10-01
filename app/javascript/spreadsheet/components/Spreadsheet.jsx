@@ -250,16 +250,16 @@ export default class Spreadsheet extends Component {
       return (
         <div className="panel-bar">
           <Control
-            inputType={()=>this.setInputType("expense")}
-            title="expense"
-            onNew={this.onNew} />
-          <Control
             inputType={()=>this.setInputType("income")}
             title="income"
             onNew={this.onNew} />
           <Control
             inputType={()=>this.setInputType("category")}
             title="category"
+            onNew={this.onNew} />
+          <Control
+            inputType={()=>this.setInputType("expense")}
+            title="expense"
             onNew={this.onNew} />
         </div>
       )

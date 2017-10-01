@@ -18,11 +18,10 @@
         <label>Load Categories</label>
         <% @categories.each do |category| %>
           <% if category.name != "income" %>
-            <!-- LOADING DEFAULTS CODE HERE -->
-            <!-- <label>
-              <%# category.name %>
-              <%# f.check_box :currency, {}, "#{category.name}" %>
-            </label> -->
+            <label class="checkbox-label">
+              <%= check_box_tag "load_default_categories[]", "#{category.name}", true, {multiple: true} %>
+              <%= category.name.capitalize %>
+            </label>
           <% end %>
         <% end %>
       </div>

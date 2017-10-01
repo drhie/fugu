@@ -11,10 +11,11 @@ class SpreadsheetsController < ApplicationController
 
   def create
     @spreadsheet = Spreadsheet.new(spreadsheet_params)
-    binding.pry
     @spreadsheet.user_id = current_user.id if current_user
     if @spreadsheet.save
       @spreadsheet.categories << current_user.categories.find_by(name: "income")
+      @spreadsheet.load_default_categories(params[:load_default_categories]) if params[:load_default_categories]
+      @spreadsheet.load_default_income(params[:load_default_income]) if params[:load_default_income]
       redirect_to spreadsheet_path(@spreadsheet)
     else
       flash.now[:error] = "Missing name and/or currency"

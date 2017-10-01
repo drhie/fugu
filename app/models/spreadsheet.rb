@@ -35,4 +35,15 @@ class Spreadsheet < ApplicationRecord
   def get_expenses
     self.items.where.not(category_id: self.categories.where(name: "income").first.id)
   end
+
+  def load_default_categories(categories)
+    categories.each do |category|
+      default_category = Category.find_by(name: category)
+      self.categories << default_category
+    end
+  end
+
+  def load_default_income(income)
+    binding.pry
+  end
 end
