@@ -27,5 +27,21 @@
     left: 0
     .expense-bar-piece
       display: inline-block
-      // position: absolute
+      position: relative
       height: 16px
+      .expense-bar-hover
+        position: absolute
+        padding: 10px
+        top: 16px
+        right: 0px
+        background: lightgray
+        border: 1px solid darkgray
+        display: none
+        z-index: 1
+        p
+          margin: 0px
+          padding: 0px
+    .expense-bar-piece:hover
+      border: 1px solid gray
+      .expense-bar-hover
+        display: inline-block

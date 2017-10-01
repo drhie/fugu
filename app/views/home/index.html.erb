@@ -3,14 +3,16 @@
   <p>Personal Cost Tracker</p>
 </div>
 
-<div id="selection-section">
-  <%= link_to "Create a Spreadsheet", new_spreadsheet_path %>
-  <% if @spreadsheets.length > 0 %>
-    <h4>Edit Spreadsheets</h4>
-      <% @spreadsheets.each do |s| %>
-      <div>
-        <%= link_to "Edit #{s.name}", spreadsheet_path(s), method: :get %>
-      </div>
+<% if current_user %>
+  <div id="selection-section">
+    <%= link_to "Create a Spreadsheet", new_spreadsheet_path %>
+    <% if @spreadsheets.length > 0 %>
+      <h4>Edit Spreadsheets</h4>
+        <% @spreadsheets.each do |s| %>
+        <div>
+          <%= link_to "Edit #{s.name}", spreadsheet_path(s), method: :get %>
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
-</div>
+  </div>
+<% end %>

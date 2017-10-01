@@ -43,28 +43,30 @@ export default class IncomeBar extends React.Component {
   }
 
   expenseBars(expenses) {
-    var colors = ["crimson", "maroon"]
     var elements = []
-    var colorTracker = 0;
     for (var key in expenses) {
       var total = 0;
-      var color = colorTracker % 2 === 0 ? colors[0] : colors[1];
       expenses[key].forEach(function(e) {
         total += e.amount;
       });
-      colorTracker ++
-      elements.push({ color: color, width: total/this.props.totalExpense*100 + "%", name: key, total: total });
+      elements.push({ width: total/this.props.totalExpense*100 + "%", name: key, total: total });
     }
     return elements
   }
 
   renderExpenseBars(hashData) {
-    var elements = hashData.map((e)=> {
+    var widthArray = Object.keys(hashData).map(function(key) {return [parseInt(hashData[key]["total"]), hashData[key]]});
+    widthArray.sort(function(first, second) {return second[0] - first[0]});
+    var colorTracker = 0;
+    var colors = ["crimson", "maroon"]
+    var elements = widthArray.map((e)=> {
+      var color = colorTracker % 2 === 0 ? colors[0] : colors[1];
+      colorTracker ++
       return (
-        <Expense bgColor={e.color}
-          width={e.width}
-          name={e.name}
-          total={e.total} />
+        <Expense bgColor={color}
+          width={e[1].width}
+          name={e[1].name}
+          total={e[1].total} />
       )
     });
     return elements;
