@@ -41,6 +41,7 @@ export default class Spreadsheet extends Component {
       expenses: {},
       items: {},
       currency: "USD",
+      currentCategory: null,
 
       info: {},
 
@@ -56,6 +57,7 @@ export default class Spreadsheet extends Component {
     this.onEdit = this.onEdit.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.generateControlPanel = this.generateControlPanel.bind(this);
+    this.onFilterCategory = this.onFilterCategory.bind(this);
   }
 
   componentDidMount() {
@@ -315,6 +317,10 @@ export default class Spreadsheet extends Component {
     })
   }
 
+  onFilterCategory(name) {
+    this.setState({currentCategory: name});
+  }
+
   render() {
     return (
       <div id="shell">
@@ -362,9 +368,10 @@ export default class Spreadsheet extends Component {
               amount={this.state.amount}
               category={this.state.category}
               currency={this.state.currency}
-
+              currentCategory={this.state.currentCategory}
               onEdit={this.onEdit}
-              onDelete={this.onDelete} />
+              onDelete={this.onDelete}
+              onFilterCategory={this.onFilterCategory} />
           </div>
         </div>
       </div>
