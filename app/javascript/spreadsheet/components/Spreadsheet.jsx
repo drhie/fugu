@@ -305,10 +305,11 @@ export default class Spreadsheet extends Component {
   }
 
   onEdit(item) {
+    var transactionDate = item["transactionDate"] || ""
     if (item["category"] === "income") {
-      this.setState({inputType: "income", inputScreen: true, itemToEdit: item["id"], name: item["name"], amount: item["amount"], transactionDate: item["transactionDate"]});
+      this.setState({inputType: "income", inputScreen: true, itemToEdit: item["id"], name: item["name"], amount: item["amount"], transactionDate: transactionDate});
     } else {
-      this.setState({inputType: "expense", inputScreen: true, itemToEdit: item["id"], name: item["name"], amount: item["amount"], category: item["category"], transactionDate: item["transactionDate"]});
+      this.setState({inputType: "expense", inputScreen: true, itemToEdit: item["id"], name: item["name"], amount: item["amount"], category: item["category"], transactionDate: transactionDate});
     }
   }
 
