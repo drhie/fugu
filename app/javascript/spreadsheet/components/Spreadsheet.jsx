@@ -193,7 +193,7 @@ export default class Spreadsheet extends Component {
         if (e.id === existingItem) {
           e["name"] = inputValues["name"];
           e["amount"] = parseInt(inputValues["amount"]);
-          e["transactionDate"] = inputValues["transactionDate"];
+          e["transaction_date"] = inputValues["transactionDate"];
           if (inputValues["category"]) e["category_id"] = inputValues["category"]
         }
       });
