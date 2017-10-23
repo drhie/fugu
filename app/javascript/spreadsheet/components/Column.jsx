@@ -12,7 +12,11 @@ export default class Column extends React.Component {
   renderRow() {
     for (var key in this.props.items) {
       if (key === this.props.heading) {
-        return this.props.items[key].map((item, num)=> {
+        var itemsByDate = this.props.items[key]
+        itemsByDate.sort(function(a,b){
+          return new Date(b.transactionDate) - new Date(a.transactionDate);
+        });
+        return itemsByDate.map((item, num)=> {
           var evenOdd = num % 2 === 0 ? "even-row" : "odd-row";
           return this.renderItem(item, evenOdd);
         });
