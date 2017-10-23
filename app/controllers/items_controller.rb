@@ -29,6 +29,6 @@ class ItemsController < ApplicationController
 
   private
   def item_params
-    params.require(:item).permit(:name, :amount, :is_expense, :spreadsheet_id)
+    params.require(:item).permit(:name, :amount, :is_expense, :transaction_date, :comment, :spreadsheet_id)
   end
 end

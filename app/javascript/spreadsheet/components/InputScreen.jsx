@@ -35,6 +35,7 @@ export default class InputScreen extends React.Component {
     var name = this.props.name;
     var amount = this.props.amount;
     var category = this.props.category;
+    var transactionDate = this.props.transactionDate;
 
     var nameForm = <div className="name-form" id={this.props.title === "category" ? "category" : null}>
       <label>Name:</label>
@@ -51,6 +52,15 @@ export default class InputScreen extends React.Component {
         name="amount"
         id="amount"
         value={amount}
+        onChange={this.handleChange} />
+    </div>
+
+    var dateForm = <div className="date-form">
+      <label>Date:</label>
+      <input type="date"
+        name="transaction_date"
+        id="transaction_date"
+        value={transactionDate}
         onChange={this.handleChange} />
     </div>
 
@@ -71,9 +81,9 @@ export default class InputScreen extends React.Component {
     var formElements;
 
     if (this.props.title === "expense") {
-      formElements = <div><div className="form-top-half">{nameForm}{amountForm}</div>{categoryForm}</div>
+      formElements = <div><div className="form-top-half">{nameForm}{amountForm}</div>{dateForm}{categoryForm}</div>
     } else if (this.props.title === "income") {
-      formElements = <div className="form-top-half">{nameForm}{amountForm}</div>
+      formElements = <div><div className="form-top-half">{nameForm}{amountForm}</div>{dateForm}</div>
     } else {
       formElements = <div>{nameForm}</div>
     }

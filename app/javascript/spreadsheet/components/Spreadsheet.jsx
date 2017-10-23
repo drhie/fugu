@@ -33,6 +33,7 @@ export default class Spreadsheet extends Component {
       name: "",
       amount: "",
       category: "",
+      transactionDate: "",
       inputScreen: false,
       inputType: null,
       itemToEdit: null,
@@ -107,12 +108,12 @@ export default class Spreadsheet extends Component {
         var category = category_index[item["category_id"]]
         if (item.is_expense) {
           if (expenses.hasOwnProperty(category)) {
-            expenses[category].push({id: item["id"], name: item["name"], amount: item["amount"], category: category});
+            expenses[category].push({id: item["id"], name: item["name"], amount: item["amount"], category: category, transactionDate: item["transaction_date"]});
           } else {
-            expenses[category] = [{id: item["id"], name: item["name"], amount: item["amount"], category: category}];
+            expenses[category] = [{id: item["id"], name: item["name"], amount: item["amount"], category: category, transactionDate: item["transaction_date"]}];
           }
         } else {
-          income.push({id: item["id"], name: item["name"], amount: item["amount"], category: category});
+          income.push({id: item["id"], name: item["name"], amount: item["amount"], category: category, transactionDate: item["transaction_date"]});
         }
       });
       this.setState({expenses: expenses, income: income});
@@ -131,13 +132,15 @@ export default class Spreadsheet extends Component {
     if (key === "amount") this.setState({amount: value});
     if (key === "name") this.setState({name: value});
     if (key === "category") this.setState({category: value});
+    if (key === "transaction_date") this.setState({transactionDate: value});
   }
 
   handleInputSubmit(e) {
     var inputValues = {
       name: e.target.name ? e.target.name.value : undefined,
       amount: e.target.amount ? e.target.amount.value : undefined,
-      category: e.target.category ? e.target.category.value : undefined
+      category: e.target.category ? e.target.category.value : undefined,
+      transactionDate: e.target.transaction_date ? e.target.transaction_date.value : undefined,
     }
     if (this.state.inputType.toLowerCase() === "income") {
       var existingItem = this.state.itemToEdit ? this.state.itemToEdit : false;
@@ -164,6 +167,7 @@ export default class Spreadsheet extends Component {
           name: inputValues["name"],
           amount: inputValues["amount"],
           is_expense: isExpense,
+          transaction_date: inputValues["transactionDate"]
         },
         spreadsheet_id: this.props.info["id"],
         category: inputValues["category"]
@@ -189,6 +193,7 @@ export default class Spreadsheet extends Component {
         if (e.id === existingItem) {
           e["name"] = inputValues["name"];
           e["amount"] = parseInt(inputValues["amount"]);
+          e["transactionDate"] = inputValues["transactionDate"];
           if (inputValues["category"]) e["category_id"] = inputValues["category"]
         }
       });
@@ -295,16 +300,15 @@ export default class Spreadsheet extends Component {
         }
       }
       //Always set items and then update. Don't manipulate income and expense states.
-      this.setState({items, items}, this.update())
+      this.setState({items: items}, this.update())
     });
   }
 
   onEdit(item) {
-    console.log(item["id"], item["name"], item["amount"], item["category"], "from Spreadsheet");
     if (item["category"] === "income") {
-      this.setState({inputType: "income", inputScreen: true, itemToEdit: item["id"], name: item["name"], amount: item["amount"]});
+      this.setState({inputType: "income", inputScreen: true, itemToEdit: item["id"], name: item["name"], amount: item["amount"], transactionDate: item["transactionDate"]});
     } else {
-      this.setState({inputType: "expense", inputScreen: true, itemToEdit: item["id"], name: item["name"], amount: item["amount"], category: item["category"]});
+      this.setState({inputType: "expense", inputScreen: true, itemToEdit: item["id"], name: item["name"], amount: item["amount"], category: item["category"], transactionDate: item["transactionDate"]});
     }
   }
 
@@ -313,6 +317,7 @@ export default class Spreadsheet extends Component {
       name: "",
       amount: "",
       category: "",
+      transactionDate: "",
       itemToEdit: null,
     })
   }
@@ -356,6 +361,7 @@ export default class Spreadsheet extends Component {
                   name={this.state.name}
                   amount={this.state.amount}
                   category={this.state.category}
+                  transactionDate={this.state.transactionDate}
 
                   onInputChange={this.handleInputChange}
                   onInputSubmit={this.handleInputSubmit} />
