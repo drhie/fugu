@@ -14,12 +14,14 @@ export default class CategoryGrid extends React.Component {
   renderCategoryButtons() {
     var categories = this.props.categories;
     var elements = categories.map(function(e) {
-      return (
-        <div className="category-button" onClick={()=>this.filterCategory(e)}>
-          {e}
-        </div>
-      )
-    }.bind(this));
+      if (e != "income") {
+        return (
+          <div className="category-button" onClick={()=>this.filterCategory(e)}>
+            {e}
+          </div>
+        )
+      }
+    }.bind(this));        
     return elements;
   }
 
