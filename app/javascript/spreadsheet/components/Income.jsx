@@ -1,14 +1,5 @@
 import React from 'react'
-
-function formatInteger(currency, integer) {
-  var currencies = {
-    "JPY": "¥",
-    "CAD": "$",
-    "USD": "$"
-  };
-  var amount = currencies[currency] + Math.abs(integer).toLocaleString(undefined, {minimumFractionDigits: 0});
-  return integer >= 0 ? amount : "-" + amount;
-}
+import {formatInteger} from './helperFunctions';
 
 export default class Income extends React.Component {
 
