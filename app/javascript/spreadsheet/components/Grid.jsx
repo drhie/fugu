@@ -57,7 +57,8 @@ export default class Grid extends React.Component {
         </div>
       )
     } else {
-      return this.props.categories.map(function(category) {
+      var orderedCategories = this.props.categories;
+      return orderedCategories.map(function(category) {
         if (category != "income") {
           return (
             <div className="category-summary" onClick={()=>this.filterCategory(category)}>

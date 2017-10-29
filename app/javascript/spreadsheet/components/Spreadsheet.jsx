@@ -48,7 +48,8 @@ export default class Spreadsheet extends Component {
 
       totalIncome: 0,
       totalExpense: 0,
-      totalBalance: 0
+      totalBalance: 0,
+      entireBalance: 0,
     }
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -70,7 +71,8 @@ export default class Spreadsheet extends Component {
       totalExpense: parseInt(this.props.totalExpense),
       totalBalance: parseInt(this.props.balance),
       currency: this.props.info["currency"],
-      info: this.props.info
+      info: this.props.info,
+      entireBalance: parseInt(this.props.entireBalance)
     })
     this.organizeItems();
   }
@@ -349,6 +351,7 @@ export default class Spreadsheet extends Component {
                 totalIncome={this.state.totalIncome}
                 totalExpense={this.state.totalExpense}
                 balance={this.state.totalBalance}
+                entireBalance={this.state.entireBalance}
                 />
               <div className="panel">
                 { this.generateControlPanel() }

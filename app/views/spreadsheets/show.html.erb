@@ -9,6 +9,7 @@
       totalIncome: @spreadsheet.calculate_balance[:income],
       totalExpense: @spreadsheet.calculate_balance[:expense],
       balance: @spreadsheet.calculate_balance[:total],
+      entireBalance: @spreadsheet.calculate_entire_balance,
       info: {
         id: @spreadsheet.id,
         title: @spreadsheet.name,
