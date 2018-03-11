@@ -46,8 +46,8 @@ class SpreadsheetsController < ApplicationController
   def delete_category
     category = @spreadsheet.categories.find_by(name: params[:name])
     @item_ids = @spreadsheet.items.where(category: category).pluck(:id)
-    # @spreadsheet.items.where(id: @item_ids).destroy_all
-    # @spreadsheet.categories.delete(category)
+    @spreadsheet.items.where(id: @item_ids).destroy_all
+    @spreadsheet.categories.delete(category)
     render json: {deleted_ids: @item_ids, deleted_category: params[:name]}
   end
 
