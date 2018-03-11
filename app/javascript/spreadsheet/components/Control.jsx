@@ -11,6 +11,12 @@ export default class Control extends React.Component {
     this.props.onNew();
   }
 
+  getIcon(title) {
+    if (title == "income") return <i className="fa fa-money fa-2x" />
+    if (title == "category") return <i className="fa fa-sitemap fa-2x" />
+    if (title == "expense") return <i className="fa fa-shopping-cart fa-2x" />
+  }
+
   render() {
     return (
       <div
@@ -18,6 +24,7 @@ export default class Control extends React.Component {
         className="panel-button border"
         onClick={()=>{this.onNew()}}
         >
+        {this.getIcon(this.props.title)}
         {this.props.title}
       </div>
     )
