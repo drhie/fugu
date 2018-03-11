@@ -1,5 +1,5 @@
 class SpreadsheetsController < ApplicationController
-  before_action :load_spreadsheet, only: [:edit, :update, :destroy, :last_item]
+  before_action :load_spreadsheet, only: [:edit, :update, :destroy, :delete_category, :last_item]
 
   def index
   end
@@ -41,6 +41,14 @@ class SpreadsheetsController < ApplicationController
   def destroy
     @spreadsheet.delete
     redirect_to root_url
+  end
+
+  def delete_category
+    category = @spreadsheet.categories.find_by(name: params[:name])
+    @item_ids = @spreadsheet.items.where(category: category).pluck(:id)
+    # @spreadsheet.items.where(id: @item_ids).destroy_all
+    # @spreadsheet.categories.delete(category)
+    render json: {deleted_ids: @item_ids, deleted_category: params[:name]}
   end
 
   def last_item

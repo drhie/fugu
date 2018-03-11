@@ -65,6 +65,7 @@ export default class Grid extends React.Component {
               <div className="summary detail name">{category}</div>
               <div className="summary detail">{this.calculateCategoryQuantity(category)}</div>
               <div className="summary detail">{this.calculateCategoryCost(category)}</div>
+              <div className="delete" onClick={(e)=>{e.stopPropagation(); if (confirm("Are you sure?")) this.props.onDelete("category", category)}}>X</div>
             </div>
           )
         }

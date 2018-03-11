@@ -74,7 +74,7 @@ export default class Spreadsheet extends Component {
       info: this.props.info,
       entireBalance: parseInt(this.props.entireBalance)
     })
-    this.organizeItems();
+    this.organizeItems("mount");
   }
 
   update() {
@@ -84,12 +84,12 @@ export default class Spreadsheet extends Component {
       totalExpense: this.calculateTotalExpense(),
       totalBalance: this.calculateTotalBalance()
       },
-      function() {this.organizeItems()}
+      function() {this.organizeItems("update")}
     )
   }
 
-  organizeItems() {
-    var items = this.props.items;
+  organizeItems(stage) {
+    var items = stage == "mount" ? this.props.items : this.state.items;
     var expenses = {};
     var income = [];
     var category_index;
@@ -288,22 +288,35 @@ export default class Spreadsheet extends Component {
     }
   }
 
-  onDelete(item) {
+  onDelete(type, identifier) {
     let items = this.state.items;
-    console.log("Deleting", item)
-    $.ajax({
-      url: "/items/" + item["id"],
-      type: "DELETE",
-    }).success(()=>{
-      for (var i = 0; i < items.length; i++) {
-        if (items[i]["id"] === item["id"]) {
-          var index = items.indexOf(items[i]);
-          items.splice(index, 1);
+    let categories = this.state.categories;
+    let spreadsheet = this.state.info["id"];
+    if (type == "item") {
+      $.ajax({
+        url: "/items/" + identifier["id"],
+        type: "DELETE",
+      }).done(function(deleted_id) {
+        for (var i = 0; i < items.length; i++) {
+          if (items[i]["id"] === deleted_id) {
+            var index = items.indexOf(items[i]);
+            items.splice(index, 1);
+          }
         }
-      }
-      //Always set items and then update. Don't manipulate income and expense states.
-      this.setState({items: items}, this.update())
-    });
+        //Always set items and then update. Don't manipulate income and expense states.
+        this.setState({items: items}, this.update());
+      }.bind(this));
+    } else if (type == "category") {
+      $.ajax({
+        url: "/spreadsheets/" + spreadsheet + "/categories/" + identifier,
+        type: "DELETE",
+      }).done((data)=> {
+        items = items.filter((item)=> !data["deleted_ids"].includes(item["id"]));
+        categories = categories.filter((category)=> category != data["deleted_category"])
+        //Always set items and then update. Don't manipulate income and expense states.
+        this.setState({items: items, categories: categories}, function() {this.update()});
+      });
+    }
   }
 
   onEdit(item) {

@@ -25,6 +25,7 @@ class ItemsController < ApplicationController
   def destroy
     @item = Item.find(params[:id])
     @item.destroy
+    render json: params[:id]
   end
 
   private

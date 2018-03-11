@@ -21,7 +21,7 @@ export default class CategoryGrid extends React.Component {
           </div>
         )
       }
-    }.bind(this));        
+    }.bind(this));
     return elements;
   }
 
