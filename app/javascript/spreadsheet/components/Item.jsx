@@ -4,9 +4,9 @@ import {formatInteger} from './helperFunctions';
 export default class Item extends React.Component {
   render() {
     return (
-      <div className={"border item-box " + this.props.className} onClick={()=>this.props.onEdit(this.props.item)}>
+      <div className={"item-box " + this.props.className} onClick={()=>this.props.onEdit(this.props.item)}>
         <div className="delete" onClick={(e)=>{e.stopPropagation(); this.props.onDelete("item", this.props.item)}}>
-          <i className="fa fa-close" />          
+          <i className="fa fa-close" />
         </div>
         <p className="item-name">{this.props.item["name"]}</p>
         <div className="item-bottom-half">

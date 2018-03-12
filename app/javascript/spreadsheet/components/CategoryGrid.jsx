@@ -29,6 +29,9 @@ export default class CategoryGrid extends React.Component {
     return (
       <div className="border category-panel">
         {this.renderCategoryButtons()}
+        <div className="category-button" onClick={()=>this.filterCategory("")}>
+          <i className="fa fa-step-backward" /> Return
+        </div>
       </div>
     )
   }
