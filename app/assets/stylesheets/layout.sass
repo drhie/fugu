@@ -2,14 +2,23 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+@import "base/variables"
+@import "base/buttons"
+
 .navbar
   width: 100%
   display: block
   text-align: right
   overflow: auto
+  background: $accent-bg
+  color: $accent-font
+  padding: 10px
   a
+    color: $accent-font
     display: inline-block
     padding: 0 5px
+  a:hover
+    text-shadow: 0 0 10px white
   .left-panel
     float: left
   .right-panel
@@ -17,3 +26,27 @@
 
 .alert, .notice
   margin: 0px
+
+#logo-section
+  width: 80%
+  margin: 10px auto
+  padding: 10px
+  .preview-div
+    margin: 20px auto 30px
+
+.error, .notice
+  width: 80%
+  margin: 10px auto
+  border-radius: 3px
+  text-align: center
+  padding: 10px
+
+.error
+  border-color: darken($red, 15%)
+  background: $red
+  color: $white
+
+.notice
+  border-color: darken($green, 15%)
+  background: $green
+  color: $white

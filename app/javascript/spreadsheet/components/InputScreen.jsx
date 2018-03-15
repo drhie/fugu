@@ -40,6 +40,7 @@ export default class InputScreen extends React.Component {
     var nameForm = <div className="name-form" id={this.props.title === "category" ? "category" : null}>
       <label>Name:</label>
       <input type="text"
+        placeholder={this.props.title === "income" ? "e.g., David" : this.props.title === "expense" ? "e.g., Tully's Coffee" : "e.g., Groceries" }
         id="name"
         name="name"
         value={name}
@@ -49,6 +50,7 @@ export default class InputScreen extends React.Component {
     var amountForm = <div className="amount-form">
       <label>Amount:</label>
       <input type="text"
+        placeholder="e.g., 2000"
         name="amount"
         id="amount"
         value={amount}
@@ -93,7 +95,7 @@ export default class InputScreen extends React.Component {
           <h2>{this.showHeading()}</h2>
           <form onSubmit={this.handleSubmit} id={this.props.title}>
             { formElements }
-            <input type="submit" id="submit-button" value="Submit" />
+            <input type="submit" id="submit-button" className="btn btn-default" value="Submit" />
           </form>
         </div>
       );

@@ -1,0 +1,20 @@
+<div id="rails-shell">
+  <%= content_tag :div,
+    id: "root",
+    data: {
+      categories: [],
+      income: [],
+      expenses: [],
+      items: [],
+      totalIncome: 0,
+      totalExpense: 0,
+      balance: 0,
+      entireBalance: 0,
+      info: {
+        id: "none",
+        title: "Preview Sheet",
+        currency: "JPY"
+      }
+  }.to_json do %>
+  <% end %>
+</div>
