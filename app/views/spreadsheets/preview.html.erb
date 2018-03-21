@@ -2,18 +2,18 @@
   <%= content_tag :div,
     id: "root",
     data: {
-      categories: [],
-      income: [],
-      expenses: [],
-      items: [],
-      totalIncome: 0,
-      totalExpense: 0,
-      balance: 0,
-      entireBalance: 0,
+      categories: @spreadsheet.get_categories,
+      income: @spreadsheet.get_income,
+      expenses: @spreadsheet.get_expenses,
+      items: @spreadsheet.items,
+      totalIncome: @spreadsheet.calculate_balance[:income],
+      totalExpense: @spreadsheet.calculate_balance[:expense],
+      balance: @spreadsheet.calculate_balance[:total],
+      entireBalance: @spreadsheet.calculate_entire_balance,
       info: {
-        id: "none",
-        title: "Preview Sheet",
-        currency: "JPY"
+        id: @spreadsheet.id,
+        title: @spreadsheet.name,
+        currency: @spreadsheet.currency
       }
   }.to_json do %>
   <% end %>

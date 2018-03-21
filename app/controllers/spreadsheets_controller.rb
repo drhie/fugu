@@ -27,6 +27,13 @@ class SpreadsheetsController < ApplicationController
     @spreadsheets = Spreadsheet.where(user_id: current_user.id).order(created_at: :asc)
   end
 
+  def preview
+    @spreadsheet = Spreadsheet.find(0)
+    @spreadsheet.categories.destroy_all
+    @spreadsheet.items.destroy_all
+    @spreadsheet.categories.create(user_id: @spreadsheet.user_id, name: "income")
+  end
+
   def edit
   end
 
@@ -56,7 +63,7 @@ class SpreadsheetsController < ApplicationController
   end
 
   def load_spreadsheet
-    @spreadsheet = Spreadsheet.find(params[:id])
+    @spreadsheet = Spreadsheet.find(params[:id] || 0)
   end
 
   private
