@@ -9,3 +9,6 @@
 Category.create({
   name: "income"
 })
+
+@preview_user = User.create(id: 0, email: "guest@fugu", password: "password")
+@spreadsheet = Spreadsheet.create(id: 0, user: @preview_user, name: "Preview", currency: "JPY")
