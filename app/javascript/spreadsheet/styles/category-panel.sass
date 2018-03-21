@@ -2,13 +2,17 @@
 
 .category-panel
   display: flex
-  justify-content: space-around
+  flex-wrap: wrap
+  justify-content: center
   .category-button
-    padding: 5px
-    width: 100%
+    padding: 5px 20px
     text-align: center
     cursor: pointer
     text-transform: capitalize
+    margin: 2px 5px 5px
+    background: #FFF
+    border-radius: 3px
   .category-button:hover
-    background-color: cadetblue
+    background-color: $button-hover-bg
+    color: $button-hover-font
     font-weight: 900

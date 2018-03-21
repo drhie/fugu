@@ -23,12 +23,13 @@ export default class Grid extends React.Component {
 
   calculateCategoryQuantity(category) {
     var items = this.props.items;
-    var quantity = 0;
+    var quantity;
     if (items[category]) {
-      return items[category].length
+      quantity = items[category].length
     } else {
-      return 0;
+      quantity = 0;
     }
+    return quantity + (quantity == 1 ? " item" : " items")
   }
 
   filterCategory(name) {
@@ -41,6 +42,7 @@ export default class Grid extends React.Component {
       return (
         <div>
           <CategoryGrid categories={this.props.categories} onFilterCategory={this.props.onFilterCategory}/>
+          <hr />
           <div className="columns">
             <div className="column">
               <Column

@@ -1,3 +1,5 @@
+@import "app/assets/stylesheets/base/variables"
+
 *
   font-family: "Encode Sans Semi Condensed", "sans-serif"
   box-sizing: border-box
@@ -10,7 +12,7 @@ button, input#submit-button
   vertical-align: top
 
 #main-section
-  background: aliceblue
+  background: $main-bg
   display: flex
   justify-content: space-around
   .grid
@@ -37,9 +39,10 @@ button, input#submit-button
   padding: 10px
   i
     display: block
-.panel-button:hover
+.panel-button:hover, .panel-button.active
   font-weight: 900
-  background: cadetblue
+  background: $button-hover-bg
+  color: $button-hover-font
 
 #shell, #rails-shell
   max-width: 1200px

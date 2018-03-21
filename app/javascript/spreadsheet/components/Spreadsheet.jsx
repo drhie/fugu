@@ -261,14 +261,17 @@ export default class Spreadsheet extends Component {
           <Control
             inputType={()=>this.setInputType("income")}
             title="income"
+            currentTitle={this.state.inputType}
             onNew={this.onNew} />
           <Control
             inputType={()=>this.setInputType("category")}
             title="category"
+            currentTitle={this.state.inputType}
             onNew={this.onNew} />
           <Control
             inputType={()=>this.setInputType("expense")}
             title="expense"
+            currentTitle={this.state.inputType}
             onNew={this.onNew} />
         </div>
       )
