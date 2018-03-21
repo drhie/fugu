@@ -1,17 +1,17 @@
 class CategoriesController < ApplicationController
   def index
     @index = {}
-    current_user.categories.map { |e| @index[e.id] = e.name }
+    spreadsheet_user.categories.map { |e| @index[e.id] = e.name }
     render json: @index
   end
 
   def create
     #Prevent a user from having duplicate categories
-    if current_user.categories.where(name: category_params[:name]).length > 0
+    if spreadsheet_user.categories.where(name: category_params[:name]).length > 0
       @category = Category.find_by(name: category_params[:name])
     else
       @category = Category.new(category_params)
-      @category.user_id = current_user.id if current_user
+      @category.user_id = spreadsheet_user.id if spreadsheet_user
       @category.save
     end
 

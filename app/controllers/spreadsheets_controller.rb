@@ -6,14 +6,14 @@ class SpreadsheetsController < ApplicationController
 
   def new
     @spreadsheet = Spreadsheet.new
-    @categories = Category.where(user_id: current_user.id)
+    @categories = Category.where(user_id: spreadsheet_user.id)
   end
 
   def create
     @spreadsheet = Spreadsheet.new(spreadsheet_params)
-    @spreadsheet.user_id = current_user.id if current_user
+    @spreadsheet.user_id = spreadsheet_user.id if spreadsheet_user
     if @spreadsheet.save
-      @spreadsheet.categories << current_user.categories.find_by(name: "income")
+      @spreadsheet.categories << spreadsheet_user.categories.find_by(name: "income")
       @spreadsheet.load_default_categories(params[:load_default_categories]) if params[:load_default_categories]
       redirect_to spreadsheet_path(@spreadsheet)
     else
@@ -24,7 +24,7 @@ class SpreadsheetsController < ApplicationController
 
   def show
     @spreadsheet = Spreadsheet.find(params[:id])
-    @spreadsheets = Spreadsheet.where(user_id: current_user.id).order(created_at: :asc)
+    @spreadsheets = Spreadsheet.where(user_id: spreadsheet_user.id).order(created_at: :asc)
   end
 
   def preview

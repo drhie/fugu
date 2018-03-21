@@ -1,7 +1,7 @@
 <div id="logo-section">
   <h1>Welcome to Fugu</h1>
   <p>Personal Cost Tracker</p>
-  <% if preview_user %>
+  <% unless current_user %>
     <div>
       Fugu is a cost tracker made with ReactJS and Rails. The main cost tracker is a single-page application that keeps track of income and expenses.
     </div>
@@ -11,7 +11,7 @@
   <% end %>
 </div>
 
-<% unless preview_user %>
+<% if current_user %>
   <div id="selection-section">
     <%= link_to "Create a Spreadsheet", new_spreadsheet_path %>
     <% if @spreadsheets.length > 0 %>
