@@ -4,8 +4,9 @@ import Spreadsheet from './components/Spreadsheet';
 import './styles/spreadsheets.sass'
 
 document.addEventListener('DOMContentLoaded', ()=> {
-  // const container = document.body.appendChild(document.createElement('div'));
-  const root = document.getElementById('root');
-  const loadData = JSON.parse(root.getAttribute('data'));
-  ReactDOM.render(<Spreadsheet {...loadData} />, root);
+  if (document.getElementById('root')) {
+    const root = document.getElementById('root');
+    const loadData = JSON.parse(root.getAttribute('data'));
+    ReactDOM.render(<Spreadsheet {...loadData} />, root);
+  }
 })
