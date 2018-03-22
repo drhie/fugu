@@ -14,6 +14,11 @@ class Spreadsheet < ApplicationRecord
     balance
   end
 
+  def balance_in_readable_format(number)
+    currency_mark = self.currency == "JPY" ? "¥" : "$"
+    "#{number < 0 ? "-" : nil}#{currency_mark}#{number.abs}"
+  end
+
   def calculate_item_type(category_number)
     total = 0
     self.items.each { |i| total += i.amount if i.category_id == category_number }

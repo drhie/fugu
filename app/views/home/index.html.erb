@@ -12,15 +12,25 @@
 </div>
 
 <% if current_user %>
-  <div id="selection-section">
-    <%= link_to "Create a Spreadsheet", new_spreadsheet_path %>
+  <div id="selection-section" class="center-box center-text">
+    <%= link_to new_spreadsheet_path, class: "btn btn-default" do %>
+      Create a Spreadsheet
+    <% end %>
     <% if @spreadsheets.length > 0 %>
       <h4>Your Spreadsheets</h4>
-        <% @spreadsheets.each do |s| %>
-        <div>
-          <%= link_to "Edit #{s.name}", spreadsheet_path(s), method: :get %> |
-          <%= link_to "Delete", s, method: :delete, data: {confirm: "Are you sure?"} %>
+        <div class="spreadsheet-select-box select-header">
+          <div>NAME</div>
+          <div>ITEMS</div>
+          <div>BALANCE</div>
         </div>
+        <% @spreadsheets.each do |s| %>
+          <%= link_to spreadsheet_path(s), method: :get do %>
+            <div class="spreadsheet-select-box select-body">
+              <div><%= s.name %></div>
+              <div><%= s.items.where(is_expense: false).length %></div>
+              <div><%= s.balance_in_readable_format(s.calculate_balance[:total]) %></div>
+            </div>
+          <% end %>
       <% end %>
     <% end %>
   </div>

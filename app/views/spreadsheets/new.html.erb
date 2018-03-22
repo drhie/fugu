@@ -1,33 +1,35 @@
-<%= form_for @spreadsheet do |f| %>
-  <div class="form-div">
-    <div class="form-field">
-      <%= f.label :name %>
-      <%= f.text_field :name %>
-    </div>
-    <div class="form-field">
-      <%= f.label :currency %>
-      <label class="radio-label">
-        Japanese Yen
-        <%= f.radio_button :currency, 'JPY', checked: true %>
-        Canadian Dollar
-        <%= f.radio_button :currency, 'CAD' %>
-      </label>
-    </div>
-    <% if @categories.length > 1 %>
+<div class="center-box">
+  <%= form_for @spreadsheet do |f| %>
+    <div class="form-div">
       <div class="form-field">
-        <label>Load Categories</label>
-        <% @categories.each do |category| %>
-          <% if category.name != "income" %>
-            <label class="checkbox-label">
-              <%= check_box_tag "load_default_categories[]", "#{category.name}", true, {multiple: true} %>
-              <%= category.name.capitalize %>
-            </label>
-          <% end %>
-        <% end %>
+        <%= f.label :name %>
+        <%= f.text_field :name %>
       </div>
-    <% end %>
-    <div class="form-field">
-      <%= f.submit %>
+      <div class="form-field">
+        <%= f.label :currency %>
+        <label class="radio-label">
+          Japanese Yen
+          <%= f.radio_button :currency, 'JPY', checked: true %>
+          Canadian Dollar
+          <%= f.radio_button :currency, 'CAD' %>
+        </label>
+      </div>
+      <% if @categories.length > 1 %>
+        <div class="form-field">
+          <label>Load Categories</label>
+          <% @categories.each do |category| %>
+            <% if category.name != "income" %>
+              <label class="checkbox-label">
+                <%= check_box_tag "load_default_categories[]", "#{category.name}", true, {multiple: true} %>
+                <%= category.name.capitalize %>
+              </label>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+      <div class="form-field center-text">
+        <%= f.submit "Create Spreadsheet", class: "btn btn-default" %>
+      </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>
