@@ -16,7 +16,7 @@ class Spreadsheet < ApplicationRecord
 
   def balance_in_readable_format(number)
     currency_mark = self.currency == "JPY" ? "¥" : "$"
-    "#{number < 0 ? "-" : nil}#{currency_mark}#{number.abs}"
+    "#{number < 0 ? "-" : nil}#{currency_mark}#{ActiveSupport::NumberHelper.number_to_delimited(number.abs, delimiter: ",")}"
   end
 
   def calculate_item_type(category_number)

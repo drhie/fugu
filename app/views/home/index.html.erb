@@ -27,7 +27,7 @@
           <%= link_to spreadsheet_path(s), method: :get do %>
             <div class="spreadsheet-select-box select-body">
               <div><%= s.name %></div>
-              <div><%= s.items.where(is_expense: false).length %></div>
+              <div><%= s.items.where(is_expense: true).length %></div>
               <div><%= s.balance_in_readable_format(s.calculate_balance[:total]) %></div>
             </div>
           <% end %>
