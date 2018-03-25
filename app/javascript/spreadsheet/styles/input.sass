@@ -1,12 +1,19 @@
+@import "app/assets/stylesheets/base/variables"
+
 #input-modal
   h2
     text-align: center
+  label
+    font-weight: 900
   input, select
     font-size: 1.1em
+  input[type="text"], input[type="date"]
     min-height: 36px
   .form-top-half
     display: flex
     justify-content: space-around
+  .form-bottom-half
+    margin: 15px 0 20px
   .name-form
     margin-bottom: 3px
     width: 100%
@@ -29,12 +36,27 @@
     margin: 10px 0
     display: block
     width: 100%
+    .category-label
+      text-align: center
+      margin: 5px 0
+      border-radius: 15px
+      background: $white
+      border: 1px solid $white
+      color: gray
+      label
+        padding: 5px
+        font-weight: normal
+        display: inline-block
+        width: 100%
+      input[type="radio"]
+        width: 0px
+    .category-label#active, .category-label:hover
+      color: $black
+      border: 1px solid $blue
     select#category
       width: 100%
       display: block
       padding: 2px
-    input#transaction_date
-      width: 100%
   input#submit-button
     width: 100%
     display: block
