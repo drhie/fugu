@@ -3,7 +3,8 @@ document.addEventListener('turbolinks:load', function(){
   var whiteBg = document.getElementsByClassName('graph-white-bg')[0];
   var maxHeight = whiteBg.innerHeight;
   var balanceArray = [];
-  for (var bar of graphBars) {
+  for (var i = 0; i < graphBars.length; i++) {
+    var bar = graphBars[i];
     var balance = bar.getAttribute('data-balance');
     balanceArray.push(balance);
     if (balance < 0) { whiteBg.style.paddingBottom = "10px" };
@@ -16,7 +17,8 @@ document.addEventListener('turbolinks:load', function(){
   var lowerPart = Math.abs(lowestBalance/totalSection);
   var upperPartHeight = whiteBg.offsetHeight * upperPart - document.getElementsByClassName('graph-names')[0].offsetHeight;
   var lowerPartHeight = whiteBg.offsetHeight * lowerPart - document.getElementsByClassName('graph-names')[0].offsetHeight;
-  for (var bar of graphBars) {
+  for (var i = 0; i < graphBars.length; i++) {
+    var bar = graphBars[i];
     var balance = bar.getAttribute('data-balance');
     if (balance > 0) {
       var heightPercentage = balance / highestBalance;
