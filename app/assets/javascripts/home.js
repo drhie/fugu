@@ -31,4 +31,28 @@ document.addEventListener('turbolinks:load', function(){
     }
   }
 
+  var selectBoxes = document.getElementsByClassName('spreadsheet-select-box select-body');
+  var graphBars = document.getElementsByClassName('graph-bar');
+  addHighlight(selectBoxes);
+  addHighlight(graphBars);
 }, false);
+
+function addHighlight(selectBoxes) {
+  for (var i = 0; i < selectBoxes.length; i ++) {
+    selectBoxes[i].addEventListener('mouseover', function(e) {
+      var spreadsheetID = this.getAttribute('data-spreadsheet-id');
+      var spreadsheetElements = document.querySelectorAll("[data-spreadsheet-id='"+spreadsheetID+"']")
+      for (var i = 0; i < spreadsheetElements.length; i++) {
+        spreadsheetElements[i].classList.add('highlighted');
+      }
+    })
+
+    selectBoxes[i].addEventListener('mouseout', function(e) {
+      var spreadsheetID = this.getAttribute('data-spreadsheet-id');
+      var spreadsheetElements = document.querySelectorAll("[data-spreadsheet-id='"+spreadsheetID+"']")
+      for (var i = 0; i < spreadsheetElements.length; i++) {
+        spreadsheetElements[i].classList.remove('highlighted');
+      }
+    });
+  }
+}
