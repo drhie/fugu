@@ -28,10 +28,9 @@ class SpreadsheetsController < ApplicationController
   end
 
   def preview
-    @spreadsheet = Spreadsheet.find(0)
-    @spreadsheet.categories.destroy_all
-    @spreadsheet.items.destroy_all
-    @spreadsheet.categories.create(user_id: @spreadsheet.user_id, name: "income")
+    @spreadsheet = Spreadsheet.find(0).dup
+    @spreadsheet.save
+    @spreadsheet.preview_settings
   end
 
   def edit
