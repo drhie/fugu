@@ -1,13 +1,17 @@
+require 'faker'
+
 class Users::PasswordsController < Devise::PasswordsController
   # GET /resource/password/new
-  # def new
-  #   super
-  # end
+  def new
+    @email = Faker::Internet.email
+    super
+  end
 
   # POST /resource/password
-  # def create
-  #   super
-  # end
+  def create
+    @email = Faker::Internet.email
+    super
+  end
 
   # GET /resource/password/edit?reset_password_token=abcdef
   # def edit

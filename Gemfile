@@ -34,6 +34,7 @@ gem 'devise'
 # gem 'bcrypt', '~> 3.1.7'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+gem 'faker'
 
 group :production do
   gem 'pg'
@@ -45,7 +46,6 @@ group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'faker'
   gem 'awesome_print'
   gem 'pry-byebug'
 end

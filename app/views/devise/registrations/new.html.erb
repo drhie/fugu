@@ -1,0 +1,27 @@
+<div class="center-box center-text">
+  <h2>Sign up</h2>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "devise"}) do |f| %>
+    <%= devise_error_messages! %>
+
+    <div class="field">
+      <%= f.label :email %><br />
+      <%= f.email_field :email, placeholder: "e.g., #{@email}", autofocus: true %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password, "Password <em>(6 characters minimum)</em>".html_safe %><br />
+      <%= f.password_field :password, placeholder: "e.g., ********", autocomplete: "off" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation, placeholder: "e.g., ********", autocomplete: "off" %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Sign up", class: "btn btn-default" %>
+    </div>
+  <% end %>
+
+</div>
