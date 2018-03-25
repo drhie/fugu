@@ -1,22 +1,48 @@
 @import "base/variables"
 
-.spreadsheet-select-box
-  padding: 5px 20px
-  text-align: center
-  text-transform: capitalize
-  margin: 2px 5px 5px
-  display: flex
-  justify-content: space-around
-  div
+#selection-section
+  margin: auto 10px
+  .spreadsheet-select-box
+    padding: 5px 20px
     text-align: center
-    width: 30%
-.spreadsheet-select-box.select-header
-  border-bottom: 2px solid $blue
-.spreadsheet-select-box.select-body
-  background: $white
-  border-radius: 3px
-  color: $black
-  cursor: pointer
-.spreadsheet-select-box.select-body:hover
-  background: $black
-  color: $white
+    text-transform: capitalize
+    margin: 2px 5px 5px
+    display: flex
+    justify-content: space-around
+    div
+      text-align: center
+      width: 30%
+  .spreadsheet-select-box.select-header
+    border-bottom: 2px solid $blue
+  .spreadsheet-select-box.select-body
+    background: $white
+    border-radius: 3px
+    color: $black
+    cursor: pointer
+  .spreadsheet-select-box.select-body:hover
+    background: $black
+    color: $white
+
+#graph-section
+  margin: 0 10px
+  padding: 20px
+  .graph-white-bg
+    height: 100%
+    width: 100%
+    background: $white
+    padding: 10px 0
+    .graph-names
+      border-top: 2px solid $blue
+      border-bottom: 2px solid $blue
+      display: flex
+      justify-content: space-around
+    .graph-bars
+      display: flex
+      justify-content: space-around
+      .graph-bar
+        height: 0px
+        width: 20px
+        background: $blue
+    .graph-bars.top
+      align-items: baseline
+      

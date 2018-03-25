@@ -6,7 +6,7 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(item_params)
-    @item.user_id = current_user.id if current_user
+    @item.user_id = spreadsheet_user.id if spreadsheet_user
     @item.spreadsheet_id = params[:spreadsheet_id]
     @item.category_id = Spreadsheet.find(@item.spreadsheet_id).set_category(params[:category])
     @item.save
