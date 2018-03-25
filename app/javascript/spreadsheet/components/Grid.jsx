@@ -66,8 +66,8 @@ export default class Grid extends React.Component {
           return (
             <div className="category-summary" onClick={()=>this.filterCategory(category)}>
               <div className="summary detail name">{category}</div>
-              <div className="summary detail">{this.calculateCategoryQuantity(category)}</div>
-              <div className="summary detail">{this.calculateCategoryCost(category)}</div>
+              <div className="summary detail item">{this.calculateCategoryQuantity(category)}</div>
+              <div className="summary detail cost">{this.calculateCategoryCost(category)}</div>
               <div className="delete" onClick={(e)=>{e.stopPropagation(); if (confirm("Are you sure?")) this.props.onDelete("category", category)}}><i className="fa fa-close" /></div>
             </div>
           )

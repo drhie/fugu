@@ -52,3 +52,27 @@ button, input#submit-button
 #shell, #rails-shell
   max-width: 1200px
   margin: auto
+
+@media screen and (max-width: 768px)
+  .income-elements
+    .income-bar-text
+      height: 100%
+      overflow: hidden
+      visibility: hidden
+  #main-section
+    display: block
+    .info-control, .grid
+      width: 100%
+
+@media screen and (min-width: 415px) and (max-width: 768px)
+  .panel-bar i
+    display: inline
+    vertical-align: sub
+    padding-right: 10px
+
+@media screen and (max-width: 414px)
+  .grid
+    div.category-summary
+      justify-content: space-between
+      .summary.detail.item
+        display: none

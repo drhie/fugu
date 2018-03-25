@@ -13,7 +13,9 @@ export default class Income extends React.Component {
         <div className="delete" onClick={(e)=>{e.stopPropagation(); this.props.onDelete("item", this.props.item)}}>
           <i className="fa fa-close" />
         </div>
-        {this.props.item["name"]}<br/>{formatInteger(this.props.currency, this.props.item["amount"])}
+        <div className="income-bar-text">
+          {this.props.item["name"]}<br/>{formatInteger(this.props.currency, this.props.item["amount"])}
+        </div>
       </div>
     )
   }

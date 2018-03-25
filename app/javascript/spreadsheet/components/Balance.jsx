@@ -12,7 +12,7 @@ function calculateAkaji(number) {
 export default class Balance extends React.Component {
 
   renderEntireBalance() {
-    if (this.props.userID > 0) {      
+    if (this.props.userID > 0) {
       return (
         <div>
           <p>
@@ -28,13 +28,15 @@ export default class Balance extends React.Component {
     return (
       <div className="balance">
         <h1 id="balance-heading"><span>OVERALL</span></h1>
-        <p><span className="balance-sub-heading">Income:</span>{formatInteger(this.props.currency, this.props.totalIncome)}</p>
-        <p><span className="balance-sub-heading">Expense:</span>{formatInteger(this.props.currency, this.props.totalExpense)}</p>
-        <p>
-          <span className="balance-sub-heading" style={{color: calculateAkaji(this.props.balance)}}>Monthly Balance:</span>
-          <span style={{color: calculateAkaji(this.props.balance)}}>{formatInteger(this.props.currency, this.props.balance)}</span>
-        </p>
-        {this.renderEntireBalance()}
+        <div className="balance-details">
+          <p><span className="balance-sub-heading">Income:</span>{formatInteger(this.props.currency, this.props.totalIncome)}</p>
+          <p><span className="balance-sub-heading">Expense:</span>{formatInteger(this.props.currency, this.props.totalExpense)}</p>
+          <p>
+            <span className="balance-sub-heading" style={{color: calculateAkaji(this.props.balance)}}>Monthly Balance:</span>
+            <span style={{color: calculateAkaji(this.props.balance)}}>{formatInteger(this.props.currency, this.props.balance)}</span>
+          </p>
+          {this.renderEntireBalance()}
+        </div>
       </div>
     )
   }
