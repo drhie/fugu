@@ -1,3 +1,5 @@
+@import "app/assets/stylesheets/base/variables"
+
 .item-box
   width: 100%
   // overflow: auto
@@ -25,8 +27,8 @@
       padding: 0 5px
       text-align: right
 .item-box:hover
-  background: #333
-  color: #FFF
+  background: $list-item-bg
+  color: $list-item-font
   cursor: pointer
   .delete
     display: inline-block
@@ -54,6 +56,6 @@
   text-align: center
   font-size: 0.75em
 .delete:hover
-  background: crimson
+  background: $red
   color: white
   font-family: "Trebuchet MS", Helvetica, sans-serif

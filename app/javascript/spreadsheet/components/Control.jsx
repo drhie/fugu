@@ -21,7 +21,7 @@ export default class Control extends React.Component {
     return (
       <div
         id={"add-"+this.props.title.toLowerCase()}
-        className={this.props.title === this.props.currentTitle ? "panel-button border active" : "panel-button border" }
+        className={this.props.title === this.props.currentTitle ? "panel-button btn-raised border active" : "panel-button btn-raised border" }
         onClick={()=>{this.onNew()}}
         >
         {this.getIcon(this.props.title)}

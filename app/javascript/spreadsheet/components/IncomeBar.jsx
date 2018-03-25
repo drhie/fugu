@@ -66,7 +66,8 @@ export default class IncomeBar extends React.Component {
         <Expense bgColor={color}
           width={e[1].width}
           name={e[1].name}
-          total={e[1].total} />
+          total={e[1].total}
+          currency={this.props.currency} />
       )
     });
     return elements;

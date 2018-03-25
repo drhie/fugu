@@ -16,7 +16,7 @@ export default class CategoryGrid extends React.Component {
     var elements = categories.map(function(e) {
       if (e != "income") {
         return (
-          <div className="category-button" onClick={()=>this.filterCategory(e)}>
+          <div className="category-button btn-raised" onClick={()=>this.filterCategory(e)}>
             {e}
           </div>
         )
@@ -29,7 +29,7 @@ export default class CategoryGrid extends React.Component {
     return (
       <div className="category-panel">
         {this.renderCategoryButtons()}
-        <div className="category-button" onClick={()=>this.filterCategory("")}>
+        <div className="category-button btn-raised" onClick={()=>this.filterCategory("")}>
           <i className="fa fa-step-backward" /> Return
         </div>
       </div>

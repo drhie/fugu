@@ -32,16 +32,35 @@
       .expense-bar-hover
         position: absolute
         padding: 10px
-        top: 16px
+        top: 20px
         right: 0px
-        background: lightgray
+        background: $white
         border: 1px solid darkgray
+        box-shadow: 2px 2px 3px gray
+        border-radius: 3px
         display: none
         z-index: 1
         p
           margin: 0px
           padding: 0px
+          text-align: center
+        p.expense-name
+          border-bottom: 1px solid $blue
+          font-weight: 900
+          text-transform: capitalize
+        p.expense-total
+          padding-top: 1px
+      .expense-bar-hover:after
+        width: 0
+        height: 0
+        border-left: 5px solid transparent
+        border-right: 5px solid transparent
+        border-bottom: 10px solid darkgray
+        content: ""
+        top: -10px
+        right: 0px
+        position: absolute
     .expense-bar-piece:hover
-      border: 1px solid gray
+      border-top: 5px solid transparent
       .expense-bar-hover
         display: inline-block

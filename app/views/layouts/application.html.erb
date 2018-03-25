@@ -32,9 +32,13 @@
       </div>
     </div>
     <% if flash[:notice] %>
-      <p class="notice"><%= flash[:notice] %></p>
+      <p class="notice">
+        <span><%= flash[:notice] %></span>
+      </p>
     <% elsif flash[:error] %>
-      <p class="error"><%= flash[:error] %></p>
+      <p class="error">
+        <span><%= flash[:error] %></span>
+      </p>
     <% end %>
     <%= yield %>
   </body>
