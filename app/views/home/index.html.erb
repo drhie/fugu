@@ -46,7 +46,7 @@
         <div class="graph-names">
           <% @spreadsheets.each do |s| %>
             <div>
-              <%= s.name %>
+              <%= s.name.truncate(9, omission: "…") %>
             </div>
           <% end %>
         </div>
