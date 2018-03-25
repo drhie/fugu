@@ -63,12 +63,21 @@ button, input#submit-button
     display: block
     .info-control, .grid
       width: 100%
+    .info-control
+      box-shadow: 0px 0px 10px gray
 
 @media screen and (min-width: 415px) and (max-width: 768px)
   .panel-bar i
     display: inline
     vertical-align: sub
     padding-right: 10px
+  #input-modal
+    .category-list
+      text-align: center
+      div.category-label
+        width: 48%
+        display: inline-block
+        margin: 5px 3px
 
 @media screen and (max-width: 414px)
   .grid
@@ -76,3 +85,6 @@ button, input#submit-button
       justify-content: space-between
       .summary.detail.item
         display: none
+  .navbar
+    .right-panel
+      width: 150px

@@ -68,16 +68,18 @@ export default class InputScreen extends React.Component {
 
     var categoryForm = <div className="category-form">
       <label>Category</label>
-      { this.props.categories.map((e)=> {
-        if (e != "income") {
-          return <div className="category-label" id={e === category ? "active" : null}>
-            <label>
-              <input type="radio" name="category" value={e} onChange={this.handleChange} checked={e === category} />
-              {e[0].toUpperCase() + e.slice(1).toLowerCase()}
-            </label>
-          </div>
-        }
-      }) }
+      <div className="category-list">
+        { this.props.categories.map((e)=> {
+          if (e != "income") {
+            return <div className="category-label" id={e === category ? "active" : null}>
+              <label>
+                <input type="radio" name="category" value={e} onChange={this.handleChange} checked={e === category} />
+                {e[0].toUpperCase() + e.slice(1).toLowerCase()}
+              </label>
+            </div>
+          }
+        }) }        
+      </div>
     </div>
 
     var formElements;
