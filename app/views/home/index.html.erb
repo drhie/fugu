@@ -36,26 +36,28 @@
       <% end %>
     </div>
 
-    <div id="graph-section" class="center-box center-text">
-      <div class="graph-white-bg">
-        <div class="graph-bars top">
-          <% @spreadsheets.each do |s| %>
-            <div class="graph-bar" data-balance="<%= s.calculate_balance[:total] > 0 ? s.calculate_balance[:total] : 0 %>"></div>
-          <% end %>
-        </div>
-        <div class="graph-names">
-          <% @spreadsheets.each do |s| %>
-            <div>
-              <%= s.name.truncate(8, omission: "…") %>
-            </div>
-          <% end %>
-        </div>
-        <div class="graph-bars bottom">
-          <% @spreadsheets.each do |s| %>
-            <div class="graph-bar" data-balance="<%= s.calculate_balance[:total] < 0 ? s.calculate_balance[:total] : 0 %>"></div>
-          <% end %>
+    <% if @spreadsheets.length > 1 %>
+      <div id="graph-section" class="center-box center-text">
+        <div class="graph-white-bg">
+          <div class="graph-bars top">
+            <% @spreadsheets.each do |s| %>
+              <div class="graph-bar" data-balance="<%= s.calculate_balance[:total] > 0 ? s.calculate_balance[:total] : 0 %>"></div>
+            <% end %>
+          </div>
+          <div class="graph-names">
+            <% @spreadsheets.each do |s| %>
+              <div>
+                <%= s.name.truncate(8, omission: "…") %>
+              </div>
+            <% end %>
+          </div>
+          <div class="graph-bars bottom">
+            <% @spreadsheets.each do |s| %>
+              <div class="graph-bar" data-balance="<%= s.calculate_balance[:total] < 0 ? s.calculate_balance[:total] : 0 %>"></div>
+            <% end %>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
   </div>
 <% end %>

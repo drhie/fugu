@@ -5,14 +5,12 @@
   flex-wrap: wrap
   justify-content: center
   .category-button
-    padding: 5px 20px
+    padding: 5px 10px 2px
     text-align: center
     cursor: pointer
     text-transform: capitalize
-    margin: 2px 5px 5px
-    background: #FFF
-    border-radius: 3px
-  .category-button:hover
-    background-color: $button-hover-bg
-    color: $button-hover-font
+    margin: 2px 5px
+    border-bottom: 3px solid transparent
+  .category-button:hover, .category-button#active
     font-weight: 900
+    border-bottom: 3px solid $blue

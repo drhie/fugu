@@ -20,11 +20,14 @@ export default class IncomeBar extends React.Component {
   }
 
   incomeElements() {
-    var colors = ["royalblue", "seagreen", "darkorange", "mediumpurple", "chocolate"]
+    var colors = ["income-1", "income-2", "income-3", "income-4", "income-5"]
     var income = this.props.income;
+    var index = 0;
     var elements = income.map((i, n)=> {
+      index = index > colors.length-1 ? 0 : index;
+      index++;
       return (
-        <Income bgColor={colors[n]}
+        <Income colorClass={colors[index-1]}
           width={i["amount"]/total(income)*100 + "%"}
           currency={this.props.currency}
           item={i}
@@ -58,7 +61,7 @@ export default class IncomeBar extends React.Component {
     var widthArray = Object.keys(hashData).map(function(key) {return [parseInt(hashData[key]["total"]), hashData[key]]});
     widthArray.sort(function(first, second) {return second[0] - first[0]});
     var colorTracker = 0;
-    var colors = ["crimson", "maroon"]
+    var colors = ["expense-1", "expense-2"]
     var elements = widthArray.map((e)=> {
       var color = colorTracker % 2 === 0 ? colors[0] : colors[1];
       colorTracker ++

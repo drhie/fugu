@@ -41,12 +41,13 @@ export default class Grid extends React.Component {
       var indexNumber = this.props.categories.indexOf(this.props.currentCategory);
       return (
         <div>
-          <CategoryGrid categories={this.props.categories} onFilterCategory={this.props.onFilterCategory}/>
+          <CategoryGrid categories={this.props.categories} currentCategory={this.props.currentCategory} onFilterCategory={this.props.onFilterCategory}/>
           <hr />
           <div className="columns">
             <div className="column">
               <Column
                 heading={this.props.categories[indexNumber]}
+                columnTotal={this.calculateCategoryCost(this.props.categories[indexNumber])}
                 items={this.props.items}
                 name={this.props.name}
                 amount={this.props.amount}
