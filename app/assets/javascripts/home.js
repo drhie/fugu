@@ -5,7 +5,8 @@ document.addEventListener('turbolinks:load', function(){
   var balanceArray = [];
   for (var bar of graphBars) {
     var balance = bar.getAttribute('data-balance');
-    balanceArray.push(balance)
+    balanceArray.push(balance);
+    if (balance < 0) { whiteBg.style.paddingBottom = "10px" };
   };
   balanceArray = balanceArray.sort(function(a, b){return b-a});
   var highestBalance = parseInt(balanceArray[0]);
