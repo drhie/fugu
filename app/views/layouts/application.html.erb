@@ -16,16 +16,14 @@
   <body>
     <div class="navbar">
       <div class="left-panel">
-        <% if params[:action] == "show" %>
-          <%= link_to "Home", root_url %> |
-          <%= link_to "New Spreadsheet", new_spreadsheet_path %> |
-          <%= link_to "Delete Spreadsheet", @spreadsheet, method: :delete, data: {confirm: "This action will erase all data from this spreadsheet, and is irreversible. Are you sure?"} %>
-        <% else %>
-          <%= link_to "Fugu", root_url, class: "logo" %>
-        <% end %>
+        <%= link_to "Fugu", root_url, class: "logo" %>
       </div>
       <div class="right-panel">
         <% if current_user %>
+          <%= link_to "New Spreadsheet", new_spreadsheet_path %> |
+          <% if params[:action] == "show" %>
+            <%= link_to "Delete Spreadsheet", @spreadsheet, method: :delete, data: {confirm: "This action will erase all data from this spreadsheet, and is irreversible. Are you sure?"} %> |
+          <% end %>
           <%= link_to "Log out", destroy_user_session_path, method: :delete %>
         <% else %>
           <%= link_to "Sign in", new_user_session_path %>

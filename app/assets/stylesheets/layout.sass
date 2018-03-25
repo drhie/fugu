@@ -13,16 +13,21 @@
   background: $accent-bg
   color: $accent-font
   padding: 10px
+  .left-panel
+    float: left
+    a.logo
+      top: -8px
+      font-size: 2em
+      position: absolute
+      text-shadow: 1px 1px 1px black
+  .right-panel
+    float: right
+    a:hover
+      text-shadow: 0 0 10px white
   a
     color: $accent-font
     display: inline-block
     padding: 0 5px
-  a:hover
-    text-shadow: 0 0 10px white
-  .left-panel
-    float: left
-  .right-panel
-    float: right
 
 .alert, .notice
   margin: 0px
@@ -68,8 +73,3 @@
   font-family: $logo-font
   font-size: 1.7em
   font-weight: normal
-
-a.logo
-  top: 0px
-  position: absolute
-  text-shadow: 1px 1px 1px black
