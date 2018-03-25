@@ -9,19 +9,21 @@
 
     <%= javascript_pack_tag 'spreadsheet' %>
     <%= stylesheet_pack_tag 'spreadsheet' %>
-    <link href="https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Condensed" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Condensed|Pacifico" rel="stylesheet">
 
   </head>
 
   <body>
     <div class="navbar">
-      <% if params[:action] == "show" %>
-        <div class="left-panel">
+      <div class="left-panel">
+        <% if params[:action] == "show" %>
           <%= link_to "Home", root_url %> |
           <%= link_to "New Spreadsheet", new_spreadsheet_path %> |
           <%= link_to "Delete Spreadsheet", @spreadsheet, method: :delete, data: {confirm: "This action will erase all data from this spreadsheet, and is irreversible. Are you sure?"} %>
-        </div>
-      <% end %>
+        <% else %>
+          <%= link_to "Fugu", root_url, class: "logo" %>
+        <% end %>
+      </div>
       <div class="right-panel">
         <% if current_user %>
           <%= link_to "Log out", destroy_user_session_path, method: :delete %>

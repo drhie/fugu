@@ -1,12 +1,14 @@
 <div id="logo-section">
-  <h1>Welcome to Fugu</h1>
-  <p>Personal Cost Tracker</p>
+  <h1>Welcome to <span class="logo">Fugu</span></h1>
+  <p class="sub-logo">Personal Cost Tracker</p>
   <% unless current_user %>
     <div>
-      Fugu is a cost tracker made with ReactJS and Rails. The main cost tracker is a single-page application that keeps track of income and expenses.
+      <p>
+        Fugu is a cost tracker made with ReactJS and Rails. The main cost tracker is a single-page application that keeps track of income and expenses.
+      </p>
     </div>
     <div class="preview-div">
-      <%= link_to "Preview", spreadsheet_preview_path, class: "btn btn-default", 'data-turbolinks': false %>
+      <%= link_to "Preview Features", spreadsheet_preview_path, class: "btn btn-default", 'data-turbolinks': false %>
     </div>
   <% end %>
 </div>
