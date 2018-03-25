@@ -38,7 +38,7 @@ export default class InputScreen extends React.Component {
     var transactionDate = this.props.transactionDate;
 
     var nameForm = <div className="name-form" id={this.props.title === "category" ? "category" : null}>
-      <label>Name:</label>
+      <label>Name</label>
       <input type="text"
         placeholder={this.props.title === "income" ? "e.g., David" : this.props.title === "expense" ? "e.g., Tully's Coffee" : "e.g., Groceries" }
         id="name"
@@ -48,7 +48,7 @@ export default class InputScreen extends React.Component {
     </div>
 
     var amountForm = <div className="amount-form">
-      <label>Amount:</label>
+      <label>Amount</label>
       <input type="text"
         placeholder="e.g., 2000"
         name="amount"
@@ -58,7 +58,7 @@ export default class InputScreen extends React.Component {
     </div>
 
     var dateForm = <div className="date-form">
-      <label>Date:</label>
+      <label>Date</label>
       <input type="date"
         name="transaction_date"
         id="transaction_date"
@@ -67,7 +67,7 @@ export default class InputScreen extends React.Component {
     </div>
 
     var categoryForm = <div className="category-form">
-      <label>Category:</label>
+      <label>Category</label>
       { this.props.categories.map((e)=> {
         if (e != "income") {
           return <div className="category-label" id={e === category ? "active" : null}>

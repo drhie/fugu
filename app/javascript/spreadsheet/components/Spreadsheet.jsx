@@ -368,6 +368,7 @@ export default class Spreadsheet extends Component {
                 totalExpense={this.state.totalExpense}
                 balance={this.state.totalBalance}
                 entireBalance={this.state.entireBalance}
+                userID={this.state.info["user_id"]}
                 />
               <div className="panel">
                 { this.generateControlPanel() }
