@@ -1,8 +1,28 @@
 @import "app/assets/stylesheets/base/variables"
 
 .balance
+  display: flex
+  justify-content: space-between
+  .mascot
+    height: 130px
+    transform: scaleX(-1)
   #balance-heading
-    margin-top: 0px
-  .balance-sub-heading
-    width: 150px
-    display: inline-block
+    text-align: center
+    margin: 0px auto 5px
+  .balance-details
+    margin: auto 10px
+    padding: 5px
+    background: white
+    border-radius: 5px
+    width: 100%
+    display: flex
+    flex-direction: column
+    justify-content: center
+    .balance-sub-heading
+      display: flex
+      font-size: 1.4em
+      justify-content: space-between
+      .balance-icon
+        width: 30px
+        text-align: center
+        display: inline-block

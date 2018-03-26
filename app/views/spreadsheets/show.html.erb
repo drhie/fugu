@@ -1,4 +1,13 @@
 <div id="rails-shell">
+  <div class="spreadsheet-tabs">
+    <% @spreadsheets.each do |f| %>
+      <%= link_to spreadsheet_path(f.id), method: :get do %>
+        <div class="<%= f.id === @spreadsheet.id ? 'spreadsheet-tab active-tab' : 'spreadsheet-tab' %>">
+          <%= f.name %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
   <%= content_tag :div,
     id: "root",
     data: {
@@ -18,13 +27,4 @@
       }
   }.to_json do %>
   <% end %>
-  <div class="spreadsheet-tabs">
-    <% @spreadsheets.each do |f| %>
-      <%= link_to spreadsheet_path(f.id), method: :get do %>
-        <div class="<%= f.id === @spreadsheet.id ? 'spreadsheet-tab active-tab' : 'spreadsheet-tab' %>">
-          <%= f.name %>
-        </div>
-      <% end %>
-    <% end %>
-  </div>
 </div>
