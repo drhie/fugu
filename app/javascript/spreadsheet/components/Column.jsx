@@ -36,7 +36,7 @@ export default class Column extends React.Component {
 
   render() {
     return(
-      <div>
+      <div className="column-wrapper">
         <div className="column-heading">{this.props.heading} - <span>{this.props.columnTotal}</span></div>
         {this.renderRow()}
       </div>

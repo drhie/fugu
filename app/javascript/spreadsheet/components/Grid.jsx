@@ -42,7 +42,6 @@ export default class Grid extends React.Component {
       return (
         <div>
           <CategoryGrid categories={this.props.categories} currentCategory={this.props.currentCategory} onFilterCategory={this.props.onFilterCategory}/>
-          <hr />
           <div className="columns">
             <div className="column">
               <Column
@@ -61,18 +60,19 @@ export default class Grid extends React.Component {
       )
     } else {
       var orderedCategories = this.props.categories;
-      return orderedCategories.map(function(category) {
-        if (category != "income") {
-          return (
-            <div className="category-summary" onClick={()=>this.filterCategory(category)}>
-              <div className="summary detail name">{category}</div>
-              <div className="summary detail item">{this.calculateCategoryQuantity(category)}</div>
-              <div className="summary detail cost">{this.calculateCategoryCost(category)}</div>
-              <div className="delete" onClick={(e)=>{e.stopPropagation(); if (confirm("Are you sure?")) this.props.onDelete("category", category)}}><i className="fa fa-close" /></div>
-            </div>
-          )
-        }
-      }.bind(this))
+      return <div className="category-summaries">
+        { orderedCategories.map(function(category) {
+          if (category != "income") {
+            return (
+              <div className="category-summary" onClick={()=>this.filterCategory(category)}>
+                <div className="summary detail name">{category}</div>
+                <div className="summary detail cost">{this.calculateCategoryCost(category)}</div>
+                <div className="delete" onClick={(e)=>{e.stopPropagation(); if (confirm("Are you sure?")) this.props.onDelete("category", category)}}><i className="fa fa-close" /></div>
+              </div>
+            )
+          }
+        }.bind(this)) }
+      </div>
     }
   }
 

@@ -78,7 +78,7 @@ export default class Spreadsheet extends Component {
       currency: this.props.info["currency"],
       info: this.props.info,
       entireBalance: parseInt(this.props.entireBalance)
-    })
+    });
     this.organizeItems("mount");
   }
 
@@ -98,16 +98,11 @@ export default class Spreadsheet extends Component {
   }
 
   animateFugu(balance) {
-    debugger;
-    var mascot = document.getElementsByClassName('mascot fugu-chan')[0]
-    var frames = balance > 0 ? [happyFish_1, happyFish_2] : [sadFish_1, sadFish_2]
-    var intervalTimes = 0
+    var mascot = document.getElementsByClassName('mascot fugu-chan')[0];
+    var frames = balance > 0 ? [happyFish_1, happyFish_2] : [sadFish_1, sadFish_2];
+    var intervalTimes = 0;
     var interval = setInterval(function(){
-      if (mascot.src === frames[0]) {
-        mascot.src = frames[1]
-      } else {
-        mascot.src = frames[0]
-      };
+      mascot.src = mascot.src.includes("_1") ? frames[1] : frames[0];
       intervalTimes ++;
       if (intervalTimes > 2) clearInterval(interval);
     }, 500)

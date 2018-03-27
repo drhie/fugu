@@ -1,22 +1,27 @@
-.category-summary
-  margin: 10px
+.category-summaries
   display: flex
-  justify-content: space-around
-  padding: 20px
-  background: $button-hover-font
-  cursor: pointer
-  position: relative
-  .summary
-    width: 30%
-  .summary.name
-    text-transform: uppercase
-    font-weight: 900
-  .summary.detail
-.category-summary:hover
-  background: $button-hover-bg
-  color: $button-hover-font
-  .delete
-    z-index: 4
-    display: inline-block
-    top: 4px
-    right: 4px
+  flex-flow: column wrap
+  align-items: center
+  max-height: 100%
+  padding: 10px 5px
+  .category-summary
+    margin: 10px
+    display: flex
+    justify-content: space-between
+    align-self: stretch
+    padding: 17.5px 30px
+    background: $button-hover-font
+    cursor: pointer
+    position: relative
+    .summary.name
+      text-transform: uppercase
+      font-weight: 900
+    .summary.detail
+  .category-summary:hover
+    background: $button-hover-bg
+    color: $button-hover-font
+    .delete
+      z-index: 4
+      display: inline-block
+      top: 4px
+      right: 4px
