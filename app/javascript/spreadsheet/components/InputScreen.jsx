@@ -68,7 +68,7 @@ export default class InputScreen extends React.Component {
 
     var categoryForm = <div className="category-form">
       <label>Category</label>
-      <select className="category-list">
+      <select className="category-list" name="category" id="category">
         { this.props.categories.map((e)=> {
           if (e != "income") {
             return <option value={e} onChange={this.handleChange} selected={e === category ? "true" : null}>

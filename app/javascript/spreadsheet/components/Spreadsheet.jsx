@@ -5,6 +5,11 @@ import Control from './Control';
 import IncomeBar from './IncomeBar';
 import InputScreen from './InputScreen';
 
+import happyFish_1 from '../images/blowfish_happy_1';
+import happyFish_2 from '../images/blowfish_happy_2';
+import sadFish_1 from '../images/blowfish_sad_1';
+import sadFish_2 from '../images/blowfish_sad_2';
+
 var ajaxPromise = function(spreadsheetID) {
   return $.ajax({
     url: spreadsheetID + "/last_item",
@@ -78,14 +83,34 @@ export default class Spreadsheet extends Component {
   }
 
   update() {
+    var totalBalance = this.calculateTotalBalance()
     this.setState(
       {
       totalIncome: this.calculateTotalIncome(),
       totalExpense: this.calculateTotalExpense(),
-      totalBalance: this.calculateTotalBalance()
+      totalBalance: totalBalance
       },
-      function() {this.organizeItems("update")}
+      function() {
+        this.organizeItems("update");
+        this.animateFugu(totalBalance);
+      }
     )
+  }
+
+  animateFugu(balance) {
+    debugger;
+    var mascot = document.getElementsByClassName('mascot fugu-chan')[0]
+    var frames = balance > 0 ? [happyFish_1, happyFish_2] : [sadFish_1, sadFish_2]
+    var intervalTimes = 0
+    var interval = setInterval(function(){
+      if (mascot.src === frames[0]) {
+        mascot.src = frames[1]
+      } else {
+        mascot.src = frames[0]
+      };
+      intervalTimes ++;
+      if (intervalTimes > 2) clearInterval(interval);
+    }, 500)
   }
 
   organizeItems(stage) {
@@ -143,7 +168,7 @@ export default class Spreadsheet extends Component {
       amount: e.target.amount ? e.target.amount.value : undefined,
       category: e.target.category ? e.target.category.value : undefined,
       transactionDate: e.target.transaction_date ? e.target.transaction_date.value : undefined,
-    }
+    };
     if (this.state.inputType.toLowerCase() === "income") {
       var existingItem = this.state.itemToEdit ? this.state.itemToEdit : false;
       inputValues["category"] = "income";
