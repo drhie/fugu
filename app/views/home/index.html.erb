@@ -25,17 +25,17 @@
         <h3>Your Spreadsheets</h3>
           <div class="spreadsheet-select-box select-header">
             <div>NAME</div>
-            <div>INCOME</div>
-            <div>EXPENSE</div>
+            <div id="income">INCOME</div>
+            <div id="expense">EXPENSE</div>
             <div>BALANCE</div>
           </div>
           <% @spreadsheets.each do |s| %>
             <%= link_to spreadsheet_path(s), method: :get do %>
               <div class="spreadsheet-select-box select-body" data-spreadsheet-id="<%= s.id %>">
                 <div><%= s.name %></div>
-                <div><%= s.balance_in_readable_format(s.calculate_balance[:income]) %></div>
-                <div><%= s.balance_in_readable_format(s.calculate_balance[:expense]) %></div>
-                <div style="font-weight: bold"><%= s.balance_in_readable_format(s.calculate_balance[:total]) %></div>
+                <div id="income"><%= s.balance_in_readable_format(s.calculate_balance[:income]) %></div>
+                <div id="expense"><%= s.balance_in_readable_format(s.calculate_balance[:expense]) %></div>
+                <div id="balance"><%= s.balance_in_readable_format(s.calculate_balance[:total]) %></div>
               </div>
             <% end %>
         <% end %>

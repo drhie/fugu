@@ -14,6 +14,8 @@
       div
         text-align: center
         width: 30%
+      #balance
+        font-weight: 900
     .spreadsheet-select-box.select-header
       border-bottom: 2px solid $blue
     .spreadsheet-select-box.select-body
@@ -58,10 +60,14 @@
 
 @media screen and (max-width: 768px)
   #user-dashboard
-    width: 100%
-    display: inline-block
+    flex-direction: column
     #selection-section, #graph-section
       width: 100%
       margin: 10px 0
-    #graph-section
+    #graph-section, .graph-white-bg
       min-height: 250px
+
+@media screen and (max-width: 415px)
+  .spreadsheet-select-box
+    #income, #expense
+      display: none
