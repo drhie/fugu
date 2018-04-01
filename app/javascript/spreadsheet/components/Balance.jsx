@@ -35,13 +35,13 @@ export default class Balance extends React.Component {
         <div className="balance-details">
           <div className="balance-sub-heading">
             <div className="balance-icon">
-              <i className="fa fa-plus-circle"/>
+              <i className="fa fa-money"/>
             </div>
             {formatInteger(this.props.currency, this.props.totalIncome)}
           </div>
           <div className="balance-sub-heading">
             <div className="balance-icon">
-              <i className="fa fa-minus-circle"/>
+              <i className="fa fa-shopping-cart"/>
             </div>
             {formatInteger(this.props.currency, this.props.totalExpense)}
           </div>
