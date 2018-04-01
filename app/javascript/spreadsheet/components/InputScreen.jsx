@@ -49,7 +49,7 @@ export default class InputScreen extends React.Component {
 
     var amountForm = <div className="amount-form">
       <label>Amount</label>
-      <input type="text"
+      <input type="number"
         placeholder="e.g., 2000"
         name="amount"
         id="amount"
