@@ -23,22 +23,26 @@
     <div id="selection-section" class="center-box center-text">
       <% if @spreadsheets.length > 0 %>
         <h3>Your Spreadsheets</h3>
-          <div class="spreadsheet-select-box select-header">
-            <div>NAME</div>
-            <div id="income">INCOME</div>
-            <div id="expense">EXPENSE</div>
-            <div>BALANCE</div>
-          </div>
-          <% @spreadsheets.each do |s| %>
-            <%= link_to spreadsheet_path(s), method: :get do %>
-              <div class="spreadsheet-select-box select-body" data-spreadsheet-id="<%= s.id %>">
-                <div><%= s.name %></div>
-                <div id="income"><%= s.balance_in_readable_format(s.calculate_balance[:income]) %></div>
-                <div id="expense"><%= s.balance_in_readable_format(s.calculate_balance[:expense]) %></div>
-                <div id="balance"><%= s.balance_in_readable_format(s.calculate_balance[:total]) %></div>
-              </div>
-            <% end %>
+        <div class="spreadsheet-select-box select-header">
+          <div>NAME</div>
+          <div id="income">INCOME</div>
+          <div id="expense">EXPENSE</div>
+          <div>BALANCE</div>
+        </div>
+        <% @spreadsheets.each do |s| %>
+          <%= link_to spreadsheet_path(s), method: :get do %>
+            <div class="spreadsheet-select-box select-body" data-spreadsheet-id="<%= s.id %>">
+              <div><%= s.name %></div>
+              <div id="income"><%= s.balance_in_readable_format(s.calculate_balance[:income]) %></div>
+              <div id="expense"><%= s.balance_in_readable_format(s.calculate_balance[:expense]) %></div>
+              <div id="balance"><%= s.balance_in_readable_format(s.calculate_balance[:total]) %></div>
+            </div>
+          <% end %>
         <% end %>
+        <div class="spreadsheet-select-box">
+          <div>TOTAL:</div>
+          <div id="balance"><%= @spreadsheets.first.balance_in_readable_format(current_user.calculate_entire_balance) %></div>
+        </div>
       <% else %>
         <%= link_to new_spreadsheet_path, class: "btn btn-default" do %>
           New Spreadsheet

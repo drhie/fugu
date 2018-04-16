@@ -41,14 +41,6 @@ class Spreadsheet < ApplicationRecord
     self.items.where.not(category_id: self.categories.where(name: "income").first.id)
   end
 
-  def calculate_entire_balance
-    total = 0
-    Spreadsheet.where(user: self.user).each do |sprd|
-      total += sprd.calculate_balance[:total] unless sprd == self
-    end
-    return total
-  end
-
   def load_default_categories(categories)
     categories.each do |category|
       default_category = Category.where(name: category, user_id: self.user_id)

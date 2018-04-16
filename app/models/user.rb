@@ -7,4 +7,12 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  def calculate_entire_balance
+    total = 0
+    spreadsheets.each do |sprd|
+      total += sprd.calculate_balance[:total] unless sprd == self
+    end
+    return total
+  end
 end
