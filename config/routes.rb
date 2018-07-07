@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get 'spreadsheets/preview' => 'spreadsheets#preview', as: :spreadsheet_preview
   delete 'spreadsheets/:id/categories/:name' => 'spreadsheets#delete_category'
 
+  post 'searches' => 'searches#search', as: :search
+  resources :searches, only: :index
   resources :spreadsheets
   resources :items, except: [:index, :show]
   resources :categories, only: [:index, :create, :show]

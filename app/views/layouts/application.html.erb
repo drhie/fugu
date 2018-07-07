@@ -25,6 +25,7 @@
           <% if params[:action] == "show" %>
             <%= link_to "Delete Spreadsheet", @spreadsheet, method: :delete, data: {confirm: "This action will erase all data from this spreadsheet, and is irreversible. Are you sure?"} %> |
           <% end %>
+          <%= link_to "Trends", searches_path %> |
           <%= link_to "Log out", destroy_user_session_path, method: :delete %>
         <% else %>
           <%= link_to "Sign in", new_user_session_path %> |
