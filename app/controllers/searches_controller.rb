@@ -24,6 +24,6 @@ class SearchesController < ApplicationController
   private
   def load_default_variables
     @categories = spreadsheet_user.categories
-    @spreadsheets = spreadsheet_user.spreadsheets
+    @spreadsheets = spreadsheet_user.spreadsheets.order(:id)
   end
 end

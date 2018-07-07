@@ -1,4 +1,24 @@
 <div class="center-box">
+  <% if @results.present? %>
+    <h2>Results</h2>
+    <div id="user-dashboard">
+      <div id="selection-section" class="center-box center-text">
+        <div class="spreadsheet-select-box select-header">
+          <div>NAME</div>
+          <div>ITEMS</div>
+          <div>AMOUNT</div>
+        </div>
+        <% @spreadsheets.each do |s| %>
+          <div class="spreadsheet-select-box select-body" data-spreadsheet-id="<%= s.id %>">
+            <div><%= s.name %></div>
+            <div><%= @results[s.id][:item_count] %></div>
+            <div><%= number_to_currency(@results[s.id][:amount], unit: "¥", precision: 0) %></div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
   <h2>Search</h2>
   <% if @categories.length > 1 %>
     <div class="form-div">
@@ -33,24 +53,6 @@
         </div>
         <%= submit_tag "Word Trend", class: "btn btn-default" %>
       <% end %>
-    </div>
-  <% end %>
-  <% if @results.present? %>
-    <div id="user-dashboard">
-      <div id="selection-section" class="center-box center-text">
-        <div class="spreadsheet-select-box select-header">
-          <div>NAME</div>
-          <div>ITEMS</div>
-          <div>AMOUNT</div>
-        </div>
-        <% @spreadsheets.each do |s| %>
-          <div class="spreadsheet-select-box select-body" data-spreadsheet-id="<%= s.id %>">
-            <div><%= s.name %></div>
-            <div><%= @results[s.id][:item_count] %></div>
-            <div><%= number_to_currency(@results[s.id][:amount], unit: "¥", precision: 0) %></div>
-          </div>
-        <% end %>
-      </div>
     </div>
   <% end %>
 </div>
