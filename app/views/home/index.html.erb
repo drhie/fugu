@@ -53,27 +53,7 @@
     <% if @spreadsheets.length > 1 %>
       <div id="graph-section" class="center-box center-text">
         <div class="graph-white-bg">
-          <div class="graph-bars top">
-            <% @spreadsheets.each do |s| %>
-              <%= link_to spreadsheet_path(s), method: :get do %>
-                <div class="graph-bar" data-spreadsheet-id="<%= s.id %>" data-balance="<%= s.calculate_balance[:total] > 0 ? s.calculate_balance[:total] : 0 %>"></div>
-              <% end %>
-            <% end %>
-          </div>
-          <div class="graph-names">
-            <% @spreadsheets.each do |s| %>
-              <div>
-                <%= s.name.truncate(8, omission: "…") %>
-              </div>
-            <% end %>
-          </div>
-          <div class="graph-bars bottom">
-            <% @spreadsheets.each do |s| %>
-              <%= link_to spreadsheet_path(s), method: :get do %>
-                <div class="graph-bar" data-spreadsheet-id="<%= s.id %>" data-balance="<%= s.calculate_balance[:total] < 0 ? s.calculate_balance[:total] : 0 %>"></div>
-              <% end %>
-            <% end %>
-          </div>
+          <%= column_chart @spreadsheets.order(:id).collect { |s| [s.name, s.calculate_balance[:total] ] }, colors: ["rgb(27, 190, 190)"], height: "100%" %>
         </div>
       </div>
     <% end %>
