@@ -28,7 +28,7 @@
             <% if category.name != "income" %>
               <label class="checkbox-label">
                 <% checked = category.spreadsheets.count > (current_user.spreadsheets.count / 2) %>
-                <%= radio_button_tag "search_category[]", "#{category.name}", checked, {multiple: true} %>
+                <%= radio_button_tag "search_field[]", "#{category.name}", checked, {multiple: true} %>
                 <%= category.name.capitalize %>
               </label>
             <% end %>
