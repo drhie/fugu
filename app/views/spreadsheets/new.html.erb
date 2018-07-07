@@ -20,7 +20,8 @@
           <% @categories.each do |category| %>
             <% if category.name != "income" %>
               <label class="checkbox-label">
-                <%= check_box_tag "load_default_categories[]", "#{category.name}", true, {multiple: true} %>
+                <% checked = category.spreadsheets.count > (current_user.spreadsheets.count / 2) %>
+                <%= check_box_tag "load_default_categories[]", "#{category.name}", checked, {multiple: true} %>
                 <%= category.name.capitalize %>
               </label>
             <% end %>
