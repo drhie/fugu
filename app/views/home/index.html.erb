@@ -40,8 +40,12 @@
           <% end %>
         <% end %>
         <div class="spreadsheet-select-box">
-          <div>TOTAL:</div>
+          <div>TOTAL SAVINGS:</div>
           <div id="balance"><%= @spreadsheets.first.balance_in_readable_format(current_user.calculate_entire_balance) %></div>
+        </div>
+        <div class="spreadsheet-select-box">
+          <div>AVERAGE SAVINGS:</div>
+          <div id="balance"><%= @spreadsheets.first.balance_in_readable_format(current_user.calculate_average_savings) %></div>
         </div>
       <% else %>
         <%= link_to new_spreadsheet_path, class: "btn btn-default" do %>

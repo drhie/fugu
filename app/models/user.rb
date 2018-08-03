@@ -15,4 +15,8 @@ class User < ApplicationRecord
     end
     return total
   end
+
+  def calculate_average_savings
+    calculate_entire_balance / spreadsheets.count
+  end
 end
