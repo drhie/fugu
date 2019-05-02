@@ -52,7 +52,12 @@ export default class IncomeBar extends React.Component {
       expenses[key].forEach(function(e) {
         total += e.amount;
       });
-      elements.push({ width: Math.round(total/this.props.totalExpense*10000)/100 + "%", name: key, total: total });
+      elements.push({
+        width: Math.round(total/this.props.totalExpense*10000)/100 + "%",
+        percentage: Math.round(total/this.props.totalIncome*1000)/10 + "%",
+        name: key,
+        total: total
+      });
     }
     return elements
   }
@@ -68,6 +73,7 @@ export default class IncomeBar extends React.Component {
       return (
         <Expense bgColor={color}
           width={e[1].width}
+          percentage = {e[1].percentage}
           name={e[1].name}
           total={e[1].total}
           currency={this.props.currency} />
