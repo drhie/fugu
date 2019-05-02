@@ -1,24 +1,24 @@
-# README
+## Requirements
+- Ruby 2.3.4
+- Rails 5.2
+- Webpacker 4
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Setup
+#### Initial setup
+This is a Rails + React app, so make sure that `webpacker` and `node_modules` are set up in addition to the standard Rails bundle and db setup.
+```
+$ bundle
+$ bundle exec rails webpacker:install:react
 
-Things you may want to cover:
+$ rails db:create
+$ rails db:migrate
+$ rails db:seed
 
-* Ruby version
+$ yarn upgrade
+```
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+#### Run necessary servers:
+```
+$ rails s
+$ ./bin/webpack-dev-server
+```
