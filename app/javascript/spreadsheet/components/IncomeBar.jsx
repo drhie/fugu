@@ -28,7 +28,7 @@ export default class IncomeBar extends React.Component {
       index++;
       return (
         <Income colorClass={colors[index-1]}
-          width={i["amount"]/total(income)*100 + "%"}
+          width={Math.floor(i["amount"]/total(income)*100) + "%"}
           currency={this.props.currency}
           item={i}
           onEdit={this.props.onEdit}
