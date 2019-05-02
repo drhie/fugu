@@ -6,38 +6,21 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
-// const Hello = props => (
-//   <div>Hello {props.name}!</div>
-// )
-//
-// Hello.defaultProps = {
-//   name: 'David'
-// }
-//
-// Hello.propTypes = {
-//   name: PropTypes.string
-// }
-//
-// document.addEventListener('DOMContentLoaded', () => {
-//   ReactDOM.render(
-//     <Hello name="React" />,
-//     document.body.appendChild(document.createElement('div')),
-//   )
-// })
-
 const Hello = props => (
-  <div className='react-app-wrapper'>
-    <img src={clockIcon} alt="clock" />
-    <h5 className='hello-react'>
-      {props.message} {props.name}!
-    </h5>
-  </div>
+  <div>Hello {props.name}!</div>
 )
 
-// Render component with data
-document.addEventListener('DOMContentLoaded', () => {
-  const node = document.getElementById('hello-react')
-  const data = JSON.parse(node.getAttribute('data'))
+Hello.defaultProps = {
+  name: 'David'
+}
 
-  ReactDOM.render(<Hello {...data} />, node)
+Hello.propTypes = {
+  name: PropTypes.string
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  ReactDOM.render(
+    <Hello name="React" />,
+    document.body.appendChild(document.createElement('div')),
+  )
 })
