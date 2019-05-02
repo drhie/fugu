@@ -8,6 +8,7 @@ export default class Expense extends React.Component {
         <div className="expense-bar-hover">
           <p className="expense-name">{this.props.name}</p>
           <p className="expense-total">{formatInteger(this.props.currency, this.props.total)}</p>
+          <p className="expense-percentage">({ this.props.width })</p>
         </div>
       </div>
     )

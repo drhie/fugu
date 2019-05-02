@@ -52,7 +52,7 @@ export default class IncomeBar extends React.Component {
       expenses[key].forEach(function(e) {
         total += e.amount;
       });
-      elements.push({ width: total/this.props.totalExpense*100 + "%", name: key, total: total });
+      elements.push({ width: Math.round(total/this.props.totalExpense*100) + "%", name: key, total: total });
     }
     return elements
   }
