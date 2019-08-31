@@ -17,8 +17,11 @@ $ rails db:seed
 $ yarn upgrade
 ```
 
-#### Run necessary servers:
+#### Run necessary servers
 ```
 $ rails s
 $ ./bin/webpack-dev-server
 ```
+
+#### Access dev environment
+localhost:5100
